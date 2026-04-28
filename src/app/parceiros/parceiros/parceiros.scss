@@ -1,14 +1,10 @@
 @charset "UTF-8";
 
-p {
-  margin: 10px;
-}
 
 mat-card {
-  margin: 20px;
-  padding: 16px;
+  margin: 15px;
+  padding: 10px;
 }
-
 
 table {
   width: 100%;
@@ -17,4 +13,12 @@ table {
 .mat-mdc-form-field {
   font-size: 14px;
   width: 100%;
+}
+
+.load-spinner {
+  display: flex;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.1);
 }

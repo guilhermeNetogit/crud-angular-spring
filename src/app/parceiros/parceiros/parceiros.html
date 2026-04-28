@@ -1,25 +1,27 @@
 <mat-card>
 
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  @if (parceiros$ | async) {
 
-  <!-- ID Column -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- ID Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id}}</td>
     </ng-container>
 
-  <!-- Position Column -->
+    <!-- Position Column -->
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef> No. </th>
       <td mat-cell *matCellDef="let element"> {{element.position}} </td>
     </ng-container>
 
-  <!-- Name Column -->
+    <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -44,5 +46,11 @@
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
     </tr>
-</table>
+  </table>
+  } @else {
+  <div class="load-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  }
+
 </mat-card>

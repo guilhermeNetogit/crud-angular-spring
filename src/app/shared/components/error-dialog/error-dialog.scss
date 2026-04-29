@@ -1,0 +1,9 @@
+/* src/styles.scss */
+@use '@angular/material' as mat;
+
+.mat-mdc-dialog-container {
+  @include mat.dialog-overrides((
+    container-color: orange,
+    subhead-color: red,
+  ));
+}

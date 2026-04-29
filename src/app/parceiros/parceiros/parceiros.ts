@@ -6,6 +6,8 @@ import { AppMaterialModule } from '../../shared/app-material/app-material-module
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { ErrorDialog } from '../../shared/components/error-dialog/error-dialog';
+import { CategoryPipe } from '../../shared/pipes/category-pipe';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface PeriodicElement {
   id: number;
@@ -18,7 +20,9 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AppMaterialModule, AsyncPipe],
+  imports: [AppMaterialModule, AsyncPipe,
+    CategoryPipe, MatIconModule
+  ],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })

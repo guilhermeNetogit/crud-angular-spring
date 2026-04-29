@@ -7,8 +7,6 @@ import { ParceirosRoutingModule } from './parceiros-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, ParceirosRoutingModule,
-    MatTableModule, SharedModule
-  ],
+  imports: [CommonModule, ParceirosRoutingModule, MatTableModule, SharedModule],
 })
 export class ParceirosModule {}

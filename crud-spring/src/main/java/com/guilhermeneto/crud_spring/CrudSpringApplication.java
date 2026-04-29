@@ -1,4 +1,4 @@
-package com.api_angular_spring.crud_spring;
+package com.guilhermeneto.crud_spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

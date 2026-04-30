@@ -40,6 +40,7 @@ export class Parceiros {
     console.log('Iniciando busca...'); // <--- Teste 1
     this.parceiros$ = this.parceirosService.findAll().pipe(
       catchError(error => {
+        console.error('ERRO REAL AQUI:', error);
         this.openError('Não foi possível carregar dados!');
         return of([])
       }),

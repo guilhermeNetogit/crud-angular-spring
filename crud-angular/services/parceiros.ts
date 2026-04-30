@@ -16,7 +16,7 @@ export interface Parceiro {
 })
 export class ParceirosService {
 
-  private readonly API = '/assets/parceiros.json';
+  private readonly API = 'api/parceiros';
 
   constructor(private httpClient: HttpClient) {}
 

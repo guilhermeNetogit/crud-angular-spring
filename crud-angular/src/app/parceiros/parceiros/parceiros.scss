@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-
 mat-card {
   margin: 15px;
   padding: 10px;
@@ -8,6 +7,39 @@ mat-card {
 
 table {
   width: 100%;
+}
+
+.mat-column-actions {
+  width: 60px;
+  text-align: center;
+}
+
+.btn-actions-menu {
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+
+  /* Alinhamento flex */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer !important;
+  border-radius: 50% !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Efeito sutil ao passar o mouse em qualquer ícone da coluna */
+.btn-actions-menu:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Deixa o ícone de dentro menor para não carregar o visual */
+.btn-actions-menu mat-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .mat-mdc-form-field {

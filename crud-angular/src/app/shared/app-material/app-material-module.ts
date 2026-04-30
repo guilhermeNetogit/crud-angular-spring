@@ -6,9 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
-  exports: [MatFormFieldModule, MatInputModule, MatTableModule,
+  exports: [MatFormFieldModule, MatInputModule, MatTableModule, MatMenuModule,
   MatCardModule, MatProgressSpinnerModule,
   MatDialogModule, MatIconModule
 ],

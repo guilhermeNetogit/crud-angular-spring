@@ -1,4 +1,3 @@
-import { ParceirosModule } from './parceiros/parceiros.module';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [

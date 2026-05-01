@@ -15,19 +15,21 @@ table {
 }
 
 .btn-actions-menu {
-  width: 26px !important;
-  height: 26px !important;
-  min-width: 26px !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
 
   /* Alinhamento flex */
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
+  vertical-align: middle;
 
   cursor: pointer !important;
   border-radius: 50% !important;
   border: none !important;
   background: transparent !important;
+  padding: 0 !important;
 }
 
 /* Efeito sutil ao passar o mouse em qualquer ícone da coluna */
@@ -40,6 +42,12 @@ table {
   font-size: 20px !important;
   width: 20px !important;
   height: 20px !important;
+
+  /* Garante que o ícone não tenha margens próprias */
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .mat-mdc-form-field {

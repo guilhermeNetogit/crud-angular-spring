@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 import { ParceirosService } from '../../../../services/parceiros';
 import { AppMaterialModule } from '../../shared/app-material/app-material-module';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { ErrorDialog } from '../../shared/components/error-dialog/error-dialog';
 import { CategoryPipe } from '../../shared/pipes/category-pipe';
-import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface PeriodicElement {
   id: number;
@@ -21,7 +20,7 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AppMaterialModule, AsyncPipe, CategoryPipe, MatIconModule],
+  imports: [AppMaterialModule, AsyncPipe, CategoryPipe],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })
@@ -55,7 +54,7 @@ export class Parceiros {
     this.parceiros$ = this.parceirosService.findAll().pipe(
       catchError((error) => {
         console.error('ERRO REAL AQUI:', error);
-        this.openError('Não foi possível carregar dados!');
+        this.openError('Não foi possível carregar os dados!');
         return of([]);
       }),
       tap((dados) => {

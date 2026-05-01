@@ -1,0 +1,30 @@
+mat-toolbar {
+  background-color: rgba(0, 106, 106, 0.65);
+  border-radius: 16px 16px 0 0 ;
+  color: white;
+}
+
+mat-card {
+  max-width: 50%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center; // Centraliza horizontalmente
+  gap: 8px;               // Adiciona um espaço entre os botões
+  padding: 16px;          // Garante um respiro no final do card
+}
+
+form {
+  display: flex;
+  flex-direction: column; // Coloca um embaixo do outro
+  gap: 10px;
+  padding: 20px;
+  max-width: auto;
+
+  mat-form-field {
+    width: 100%; // Faz ocupar a largura total
+  }
+}

@@ -1,1 +1,32 @@
-<p>parceiros-form works!</p>
+<mat-card>
+
+  <mat-toolbar>
+    <span>Cadastro de Parceiros </span>
+  </mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Position</mat-label>
+        <input matInput placeholder="Ex: 1" formControlName="position">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Ex: Parceiro A" formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Weight</mat-label>
+        <input matInput placeholder="Ex: 70.73" formControlName="weight">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Symbol</mat-label>
+        <input matInput placeholder="Ex: Sy" formControlName="symbol">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button matButton="filled" (click)="onSave()">Salvar</button>
+    <button mat-raised-button (click)="onCancel()">Cancelar</button>
+  </mat-card-actions>
+</mat-card>

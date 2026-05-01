@@ -28,4 +28,8 @@ export class ParceirosService {
       tap(parceiros => console.log(parceiros))
     );
   }
+
+  save(record: Parceiro) {
+    return this.httpClient.post<Parceiro>(this.API, record);
+  }
 }

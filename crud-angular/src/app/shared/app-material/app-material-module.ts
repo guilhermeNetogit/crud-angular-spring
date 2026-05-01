@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -16,7 +17,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   exports: [MatFormFieldModule, MatInputModule,
   MatTableModule, MatMenuModule,
   MatCardModule, MatProgressSpinnerModule,
-  MatDialogModule, MatIconModule, ReactiveFormsModule, MatToolbarModule, MatButtonModule, MatSnackBarModule
+  MatDialogModule, MatIconModule, ReactiveFormsModule, MatToolbarModule, MatButtonModule, MatSnackBarModule, MatSortModule
 ],
 })
 export class AppMaterialModule {}

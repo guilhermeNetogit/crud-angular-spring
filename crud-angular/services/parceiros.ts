@@ -24,7 +24,7 @@ export class ParceirosService {
     return this.httpClient.get<Parceiro[]>(this.API)
     .pipe(
       first(),
-      delay(1500),
+      delay(1200),
       tap(parceiros => console.log(parceiros))
     );
   }

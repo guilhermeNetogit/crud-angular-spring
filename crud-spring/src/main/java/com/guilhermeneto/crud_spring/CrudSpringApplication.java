@@ -153,7 +153,7 @@ public class CrudSpringApplication {
 			parceiros.add(new Parceiros(null, 117, "Tennessine", new BigDecimal("294"), "Ts"));
 			parceiros.add(new Parceiros(null, 118, "Oganesson", new BigDecimal("294"), "Og"));
 
-			parceiros.add(new Parceiros(null, 119,"teste119", new BigDecimal("87.45"),"Ts"));
+			parceiros.add(new Parceiros(null, 119,"Teste119", new BigDecimal("87.45"),"Ts"));
 
 			parceirosRepository.saveAll(parceiros);
 

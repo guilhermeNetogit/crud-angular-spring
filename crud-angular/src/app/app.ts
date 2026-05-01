@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
+import { AppMaterialModule } from "./shared/app-material/app-material-module";
 
 
 @Component({
@@ -10,8 +10,8 @@ import { RouterOutlet } from '@angular/router';
   imports: [
     CommonModule,
     RouterOutlet,
-    MatToolbarModule
-  ],
+    AppMaterialModule
+],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

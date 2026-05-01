@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ParceirosService } from '../../../../services/parceiros';
 import { AppMaterialModule } from '../../shared/app-material/app-material-module';
 import { catchError, Observable, of, tap } from 'rxjs';
@@ -8,6 +8,7 @@ import { CategoryPipe } from '../../shared/pipes/category-pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 export interface PeriodicElement {
   id: number;
@@ -20,11 +21,16 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AppMaterialModule, AsyncPipe, CategoryPipe],
+  imports: [AppMaterialModule, AsyncPipe, CategoryPipe, MatSortModule],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })
+
 export class Parceiros {
+  @ViewChild(MatSort) set MatSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  };
+
   displayedColumns: string[] = ['position', 'name', 'symbol', 'weight', 'actions'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   /*dataSource = new MatTableDataSource(ELEMENT_DATA);*/

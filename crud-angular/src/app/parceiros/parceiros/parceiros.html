@@ -7,7 +7,7 @@
 
   @if (parceiros$ | async) {
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- ID Column -->
     <ng-container matColumnDef="id">
@@ -17,7 +17,7 @@
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <mat-icon [fontIcon]="'No.' | category"></mat-icon>
         No.
       </th>
@@ -26,8 +26,7 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>
-
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <mat-icon [fontIcon]="'Name' | category"></mat-icon>
         Name
       </th>
@@ -36,7 +35,7 @@
 
     <!-- Weight Column -->
     <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <mat-icon [fontIcon]="'Weight' | category"></mat-icon>
         Weight
       </th>
@@ -45,7 +44,7 @@
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <mat-icon [fontIcon]="'Symbol' | category"></mat-icon>
         Symbol
       </th>

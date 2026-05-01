@@ -5,26 +5,47 @@ mat-toolbar {
 }
 
 mat-card {
-  max-width: 50%;
+  max-width: 600px;
+  width: 95%;
   margin: 2em auto;
   text-align: center;
+}
+
+mat-card-content {
+  padding-top: 20px; // Espaçamento entre o título e os campos
 }
 
 mat-card-actions {
   display: flex;
   justify-content: center; // Centraliza horizontalmente
-  gap: 8px;               // Adiciona um espaço entre os botões
+  gap:16px;               // Adiciona um espaço entre os botões
   padding: 16px;          // Garante um respiro no final do card
+}
+
+.min-width {
+  width: 100%;
+  min-width: 150px;
 }
 
 form {
   display: flex;
   flex-direction: column; // Coloca um embaixo do outro
   gap: 10px;
-  padding: 20px;
-  max-width: auto;
 
   mat-form-field {
     width: 100%; // Faz ocupar a largura total
+  }
+}
+
+// Media Query para ajustes finos em telas muito pequenas
+@media (max-width: 480px) {
+  mat-card {
+    margin: 1em auto;
+    width: 100%; // Ocupa tudo no celular
+    border-radius: 0; // Opcional: remove arredondamento nas bordas da tela
+  }
+
+  mat-toolbar {
+    border-radius: 0;
   }
 }

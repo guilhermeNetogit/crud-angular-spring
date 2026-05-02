@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ParceirosList } from "../parceiros-list/parceiros-list";
 
 export interface PeriodicElement {
   id: number;
@@ -21,7 +22,7 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AppMaterialModule, AsyncPipe, CategoryPipe, MatSortModule],
+  imports: [AppMaterialModule, AsyncPipe, CategoryPipe, MatSortModule, ParceirosList],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })
@@ -31,8 +32,6 @@ export class Parceiros {
     this.dataSource.sort = sort;
   };
 
-  displayedColumns: string[] = ['position', 'name', 'symbol', 'weight', 'actions'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
   /*dataSource = new MatTableDataSource(ELEMENT_DATA);*/
   dataSource = new MatTableDataSource<PeriodicElement>([]);
 
@@ -66,6 +65,7 @@ export class Parceiros {
       tap((dados) => {
         console.log('Dados chegaram:', dados); // <--- Teste 2
         this.dataSource.data = dados;
+        this.dataSource = new MatTableDataSource(dados);
       }),
     );
   }

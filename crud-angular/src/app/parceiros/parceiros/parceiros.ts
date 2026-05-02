@@ -4,11 +4,10 @@ import { AppMaterialModule } from '../../shared/app-material/app-material-module
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { ErrorDialog } from '../../shared/components/error-dialog/error-dialog';
-import { CategoryPipe } from '../../shared/pipes/category-pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { ParceirosList } from "../parceiros-list/parceiros-list";
 
 export interface PeriodicElement {
@@ -22,18 +21,16 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AppMaterialModule, AsyncPipe, CategoryPipe, MatSortModule, ParceirosList],
+  imports: [AppMaterialModule, AsyncPipe, MatSortModule, ParceirosList],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })
 
 export class Parceiros {
-  @ViewChild(MatSort) set MatSort(sort: MatSort) {
-    this.dataSource.sort = sort;
-  };
 
   /*dataSource = new MatTableDataSource(ELEMENT_DATA);*/
   dataSource = new MatTableDataSource<PeriodicElement>([]);
+input: any;
 
   onAdd() {
     console.log('Abrindo formulário de criação...');
@@ -76,8 +73,4 @@ export class Parceiros {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 }

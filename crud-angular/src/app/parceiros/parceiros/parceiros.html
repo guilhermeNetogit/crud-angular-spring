@@ -1,15 +1,8 @@
 <mat-card>
-  <mat-toolbar color="primary">Elementos Químicos</mat-toolbar>
-
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
 
   @if (parceiros$ | async) {
 
-  <app-parceiros-list [dataSource]="dataSource" [filterValue]="input.value" (add)="onAdd()" (edit)="editar($event)"
-    (delete)="deletar($event)">
+  <app-parceiros-list [dataSource]="dataSource" (add)="onAdd()" (edit)="editar($event)" (delete)="deletar($event)">
   </app-parceiros-list>
 
   } @else {

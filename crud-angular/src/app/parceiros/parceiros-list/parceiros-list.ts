@@ -1,9 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { PeriodicElement } from '../parceiros/parceiros';
 import { AppMaterialModule } from '../../shared/app-material/app-material-module';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryPipe } from '../../shared/pipes/category-pipe';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-parceiros-list',
@@ -12,7 +13,17 @@ import { CategoryPipe } from '../../shared/pipes/category-pipe';
   templateUrl: './parceiros-list.html',
   styleUrl: './parceiros-list.scss',
 })
+
 export class ParceirosList {
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  @ViewChild(MatSort) set MatSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  };
 
   @Input() filterValue: string = '';
   @Input() dataSource = new MatTableDataSource<PeriodicElement>([]);

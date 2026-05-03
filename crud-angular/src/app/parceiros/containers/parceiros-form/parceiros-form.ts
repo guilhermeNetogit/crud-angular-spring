@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
-import { ParceirosService } from '../../../../services/parceiros';
-import { AppMaterialModule } from '../../shared/app-material/app-material-module';
+import { ParceirosService } from '../../services/parceiros';
+import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
 
 @Component({
   selector: 'app-parceiros-form',

@@ -1,8 +1,15 @@
 @charset "UTF-8";
 
 mat-card {
-  margin: 15px;
+  max-width: 80%;
+  margin: 2em auto;
   padding: 10px;
+}
+
+.column-flex {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .load-spinner {

@@ -1,0 +1,94 @@
+<mat-toolbar color="primary">Elementos Químicos</mat-toolbar>
+
+<mat-form-field>
+
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
+  </ng-container>
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-icon [fontIcon]="'No.' | category"></mat-icon>
+      Atomic Number
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-icon [fontIcon]="'Name' | category"></mat-icon>
+      Name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-icon [fontIcon]="'Weight' | category"></mat-icon>
+      Weight
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-icon [fontIcon]="'Symbol' | category"></mat-icon>
+      Symbol
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <!-- CABEÇALHO: Ações Globais -->
+    <mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button [matMenuTriggerFor]="menuGlobal" class="btn-actions-menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menuGlobal="matMenu">
+        <button mat-menu-item (click)="onAdd()">
+          <mat-icon color="primary">add</mat-icon>
+          <span>Inserir Novo</span>
+        </button>
+      </mat-menu>
+    </mat-header-cell>
+
+    <!-- LINHAS: Ações Individuais -->
+    <mat-cell *matCellDef="let element">
+      <button mat-icon-button [matMenuTriggerFor]="menuIndividual" class="btn-actions-menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menuIndividual="matMenu">
+        <button mat-menu-item (click)="editar(element.id)">
+          <mat-icon color="accent">edit</mat-icon>
+          <span>Editar Item</span>
+        </button>
+        <button mat-menu-item (click)="deletar(element.id)">
+          <mat-icon color="warn">delete</mat-icon>
+          <span>Deletar Item</span>
+        </button>
+      </mat-menu>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  <!-- Row shown when there is no matching data. -->
+  <mat-row class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="5">No data matching the filter "{{filterValue}}"</td>
+  </mat-row>
+</mat-table>

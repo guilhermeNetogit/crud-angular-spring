@@ -1,14 +1,14 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { ParceirosService } from '../../../../services/parceiros';
-import { AppMaterialModule } from '../../shared/app-material/app-material-module';
+import { ParceirosService } from '../../services/parceiros';
+import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { ErrorDialog } from '../../shared/components/error-dialog/error-dialog';
+import { ErrorDialog } from '../../../shared/components/error-dialog/error-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { ParceirosList } from "../parceiros-list/parceiros-list";
+import { ParceirosList } from "../../components/parceiros-list/parceiros-list";
 
 export interface PeriodicElement {
   id: number;

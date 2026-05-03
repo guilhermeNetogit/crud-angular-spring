@@ -1,9 +1,8 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { PeriodicElement } from '../parceiros/parceiros';
-import { AppMaterialModule } from '../../shared/app-material/app-material-module';
+import { PeriodicElement } from '../../containers/parceiros/parceiros';
+import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
 import { MatTableDataSource } from '@angular/material/table';
-import { CategoryPipe } from '../../shared/pipes/category-pipe';
+import { CategoryPipe } from '../../../shared/pipes/category-pipe';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -41,13 +40,8 @@ export class ParceirosList {
   @Output() edit = new EventEmitter<number>();
   @Output() delete = new EventEmitter<number>();
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {}
-
   onAdd() {
-    this.router.navigate(['new'], { relativeTo: this.route });
+    this.add.emit(true);
   }
 
   editar(id: number) {

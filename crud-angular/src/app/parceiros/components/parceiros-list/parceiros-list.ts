@@ -44,7 +44,7 @@ export class ParceirosList {
     this.add.emit(true);
   }
 
-  editar(id: number) {
+  onEdit(id: number) {
     this.edit.emit(id);
   }
 

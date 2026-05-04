@@ -17,6 +17,12 @@ export interface Parceiro {
 export class ParceirosService {
 
   private readonly API = 'api/parceiros';
+  private create(record: Partial<Parceiro>) {
+    return this.httpClient.post<Parceiro>(this.API, record);
+  }
+  private update(record: Partial<Parceiro>) {
+    return this.httpClient.put<Parceiro>(`${this.API}/${record.id}`, record);
+  }
 
   constructor(private httpClient: HttpClient) {}
 
@@ -25,11 +31,21 @@ export class ParceirosService {
     .pipe(
       first(),
       delay(1200),
-      tap(parceiros => console.log(parceiros))
+      //tap(parceiros => console.log(parceiros))
     );
   }
 
   save(record: Parceiro) {
-    return this.httpClient.post<Parceiro>(this.API, record);
+    console.log(record);
+    if (record.id) {
+      console.log('update')
+    return this.update(record);
+    }
+    console.log('create');
+    return this.create(record);
+  }
+
+  loadById(id: number) {
+    return this.httpClient.get<Parceiro>(`${this.API}/${id}`);
   }
 }

@@ -27,6 +27,9 @@ export interface PeriodicElement {
 })
 
 export class Parceiros {
+edit($event: number) {
+throw new Error('Method not implemented.');
+}
 
   /*dataSource = new MatTableDataSource(ELEMENT_DATA);*/
   dataSource = new MatTableDataSource<PeriodicElement>([]);
@@ -37,8 +40,9 @@ input: any;
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
-  editar(id: number) {
+  onEdit(id: number) {
     console.log('Editando registro: ', id);
+    this.router.navigate(['edit', id], {relativeTo: this.route});
   }
 
   deletar(id: number) {

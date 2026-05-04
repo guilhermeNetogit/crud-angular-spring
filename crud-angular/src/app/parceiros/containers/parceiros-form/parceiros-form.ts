@@ -1,10 +1,11 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { ParceirosService } from '../../services/parceiros';
 import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
+import { Parceiro, ParceirosService } from '../../services/parceiros';
 
 @Component({
   selector: 'app-parceiros-form',
@@ -12,7 +13,8 @@ import { AppMaterialModule } from '../../../shared/app-material/app-material-mod
   templateUrl: './parceiros-form.html',
   styleUrl: './parceiros-form.scss',
 })
-export class ParceirosForm {
+
+export class ParceirosForm implements OnInit {
   form: FormGroup;
 
   constructor(
@@ -20,13 +22,24 @@ export class ParceirosForm {
     private service: ParceirosService,
     private snackBar: MatSnackBar,
     private location: Location,
+    private route: ActivatedRoute
   ) {
     this.form = this.formBuilder.group({
+      id: [0],
       position: [0],
       name: ['', [Validators.required]],
       weight: [0],
       symbol: [''],
     });
+  }
+
+  ngOnInit(): void {
+    const parceiro: Parceiro = this.route.snapshot.data['parceiro'];
+
+    if (parceiro) {
+          this.form.patchValue(parceiro);
+          console.log('Formulário preenchido com:', parceiro);
+        }
   }
 
   private onSuccess() {

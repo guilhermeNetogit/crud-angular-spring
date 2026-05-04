@@ -1,9 +1,10 @@
 package com.guilhermeneto.crud_spring.controllers;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,9 @@ import com.guilhermeneto.crud_spring.models.Parceiros;
 import com.guilhermeneto.crud_spring.repository.ParceirosRepository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 @RestController
 @RequestMapping("/api/parceiros")
@@ -25,8 +29,16 @@ public class ParceirosController {
     @GetMapping()
     public List<Parceiros> getParceiros() {
         return parceiroRepository.findAll();
+        
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Parceiros> getOne(@PathVariable("id") Integer id) {
+        return parceiroRepository.findById(id)
+        .map(recordFound -> ResponseEntity.ok().body(recordFound))
+        .orElse(ResponseEntity.notFound().build());
+    }
+    
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
     public Parceiros save(@RequestBody Parceiros parceiro) {
@@ -34,4 +46,22 @@ public class ParceirosController {
         /*return ResponseEntity.status(201).body(parceiroRepository.save(parceiro));*/
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Parceiros> update(@PathVariable Integer id, @RequestBody Parceiros parceiro) {
+
+        parceiro.setId(id);
+        return parceiroRepository.findById(id)
+        .map(recordFound -> {
+            recordFound.setName(parceiro.getName());
+            recordFound.setPosition(parceiro.getPosition());
+            recordFound.setSymbol(parceiro.getSymbol());
+            recordFound.setWeight(parceiro.getWeight());
+
+            Parceiros updated = parceiroRepository.save(recordFound);
+            return 
+            ResponseEntity.ok().body(updated);
+
+        })
+        .orElse(ResponseEntity.notFound().build());
+    }
 }

@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, Input } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, min } from 'rxjs';
 import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
 import { Parceiro, ParceirosService } from '../../services/parceiros';
 
@@ -13,33 +13,40 @@ import { Parceiro, ParceirosService } from '../../services/parceiros';
   templateUrl: './parceiros-form.html',
   styleUrl: './parceiros-form.scss',
 })
-
 export class ParceirosForm implements OnInit {
   form: FormGroup;
+
+  value = signal('');
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private service: ParceirosService,
     private snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.form = this.formBuilder.group({
-      id: [0],
-      position: [0],
-      name: ['', [Validators.required]],
-      weight: [0],
+      id: [''],
+      position: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      weight: [''],
       symbol: [''],
     });
+  }
+
+  onInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.value.set(input.value);
   }
 
   ngOnInit(): void {
     const parceiro: Parceiro = this.route.snapshot.data['parceiro'];
 
     if (parceiro) {
-          this.form.patchValue(parceiro);
-          console.log('Formulário preenchido com:', parceiro);
-        }
+      this.form.patchValue(parceiro);
+      console.log('Formulário preenchido com:', parceiro);
+      this.value.set(parceiro.name || '');
+    }
   }
 
   private onSuccess() {
@@ -66,5 +73,17 @@ export class ParceirosForm implements OnInit {
 
   onCancel() {
     this.location.back();
+  }
+
+  getErrorMessage(fieldName: string) {
+    const field = this.form.get(fieldName);
+    if (field?.hasError('required')) {
+      return 'O campo é obrigatório';
+    }
+    if (field?.hasError('minlength')) {
+      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 2;
+      return `Tamanho mín. ${requiredLength} caracteres.`;
+    }
+    return 'Campo inválido!';
   }
 }

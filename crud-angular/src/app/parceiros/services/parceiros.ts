@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, tap } from 'rxjs';
 
-// Idealmente, mova esta interface para um arquivo separado depois
 export interface Parceiro {
   id: number;
   position: number;
@@ -24,13 +23,17 @@ export class ParceirosService {
     return this.httpClient.put<Parceiro>(`${this.API}/${record.id}`, record);
   }
 
+  delete(id: number) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+  }
+
   constructor(private httpClient: HttpClient) {}
 
   findAll() {
     return this.httpClient.get<Parceiro[]>(this.API)
     .pipe(
       first(),
-      delay(1200),
+      //delay(1200),
       //tap(parceiros => console.log(parceiros))
     );
   }

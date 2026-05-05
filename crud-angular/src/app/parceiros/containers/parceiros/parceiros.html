@@ -3,7 +3,8 @@
   @if (parceiros$ | async) {
 
   <app-parceiros-list [dataSource]="dataSource" (add)="onAdd()"
-  (edit)="onEdit($event)" (delete)="deletar($event)">
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)">
   </app-parceiros-list>
 
   } @else {

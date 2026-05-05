@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Confirmar Exclusão</h2>
+
+<mat-dialog-content>
+  <p>
+    Você tem certeza que deseja excluir <strong>{{ data.name }}</strong>?
+  </p>
+  <p class="warning-text">Esta ação não poderá ser desfeita.</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onConfirm(false)">
+    Cancelar
+  </button>
+  <button mat-raised-button color="warn" (click)="onConfirm(true)">
+    Sim, Excluir
+  </button>
+</mat-dialog-actions>

@@ -48,7 +48,7 @@ export class ParceirosList {
     this.edit.emit(id);
   }
 
-  deletar(id: number) {
+  onDelete(id: number) {
     this.delete.emit(id);
   }
 }

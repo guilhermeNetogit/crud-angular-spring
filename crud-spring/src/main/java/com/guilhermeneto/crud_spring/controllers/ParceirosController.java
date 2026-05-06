@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guilhermeneto.crud_spring.models.Parceiros;
 import com.guilhermeneto.crud_spring.repository.ParceirosRepository;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -34,14 +35,14 @@ public class ParceirosController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Parceiros> getOne(@PathVariable Integer id) {
+    public ResponseEntity<Parceiros> getOne(@PathVariable @Valid Integer id) {
         return parceiroRepository.findById(id)
         .map(recordFound -> ResponseEntity.ok().body(recordFound))
         .orElse(ResponseEntity.notFound().build());
     }
     
     @DeleteMapping("/{id}")
-        public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        public ResponseEntity<Void> delete(@PathVariable @Valid Integer id) {
            return parceiroRepository.findById(id)
            .map(recordFound -> {
             parceiroRepository.deleteById(id);;
@@ -54,13 +55,13 @@ public class ParceirosController {
  
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Parceiros save(@RequestBody Parceiros parceiro) {
+    public Parceiros save(@RequestBody @Valid Parceiros parceiro) {
         return parceiroRepository.save(parceiro);
         /*return ResponseEntity.status(201).body(parceiroRepository.save(parceiro));*/
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Parceiros> update(@PathVariable Integer id, @RequestBody Parceiros parceiro) {
+    public ResponseEntity<Parceiros> update(@PathVariable Integer id, @RequestBody @Valid Parceiros parceiro) {
 
         parceiro.setId(id);
         return parceiroRepository.findById(id)

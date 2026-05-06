@@ -10,17 +10,22 @@
         <mat-label>Position</mat-label>
         <input matInput placeholder="Ex: 1" formControlName="position">
       </mat-form-field>
-      <mat-form-field appearance="outline">
+
+      <mat-form-field appearance="outline" hintLabel="Max. 40 caracteres">
         <mat-label>Name</mat-label>
-        <input matInput placeholder="Ex: Parceiro A" formControlName="name">
-        @if (form.get('name')?.hasError('required')) {
-        <mat-error>O nome é obrigatório.</mat-error>
+        <input matInput #input maxlength="40" placeholder="Ex: Parceiro A" formControlName="name"
+          (input)="onInput($event)">
+        <mat-hint align="end">{{value().length}}/40</mat-hint>
+        @if (form.get('name')?.invalid) {
+        <mat-error>{{getErrorMessage('name')}}</mat-error>
         }
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Weight</mat-label>
         <input matInput placeholder="Ex: 70.73" formControlName="weight">
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Symbol</mat-label>
         <input matInput placeholder="Ex: Sy" formControlName="symbol">
@@ -29,7 +34,7 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button matButton="filled" (click)="onSave()">Salvar</button>
-    <button mat-raised-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button (click)="onSave()">Salvar</button>
+    <button mat-button (click)="onCancel()">Cancelar</button>
   </mat-card-actions>
 </mat-card>

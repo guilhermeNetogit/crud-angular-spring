@@ -6,7 +6,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,33 +32,27 @@ import lombok.NoArgsConstructor;
 
 public class Parceiros {
 
-    @Schema(hidden = true)
     @Positive
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Schema(example = "130")
     @Positive
     @Column(nullable = false)
     private Integer position;
 
-    @Schema(example = "Element")
     @NotNull
     @Length(min = 2, max = 30)
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Schema(example = "100.99")
     @Positive
     @Column(nullable = true, length = 10, scale = 6)
     private BigDecimal weight;
 
-    @Schema(example = "Xy")
     @Column(nullable = false, length = 2)
     private String symbol;
 
-    @Schema(hidden = true, example = "Ativo")
     @Builder.Default
     @Length(max = 8)
     @Pattern(regexp = "Ativo|Inativo")

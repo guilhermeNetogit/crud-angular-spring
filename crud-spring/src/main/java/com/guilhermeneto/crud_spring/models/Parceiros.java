@@ -1,6 +1,8 @@
 package com.guilhermeneto.crud_spring.models;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -9,12 +11,15 @@ import org.hibernate.validator.constraints.Length;
 import com.guilhermeneto.crud_spring.enums.StatusEnum;
 import com.guilhermeneto.crud_spring.enums.converters.StatusConverter;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -61,6 +66,10 @@ public class Parceiros {
     @Convert(converter = StatusConverter.class)
     private StatusEnum status = StatusEnum.ATIVO;
 
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "parceiros")
+    private List<Contatos> contatos = new ArrayList<>();
+    
     @PrePersist
         public void ensureStatus() {
             if (this.status == null)

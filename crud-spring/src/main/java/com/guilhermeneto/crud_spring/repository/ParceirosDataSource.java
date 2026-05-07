@@ -1,6 +1,7 @@
 package com.guilhermeneto.crud_spring.repository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import com.guilhermeneto.crud_spring.models.Parceiros;
 public class ParceirosDataSource {
 
     public static List<Parceiros> getParceiros() {
-        return Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
             Parceiros.builder().position(1).name("Hydrogen").weight(new BigDecimal("1.0079")).symbol("H").build(),
 			Parceiros.builder().position(2).name("Helium").weight(new BigDecimal("4.0026")).symbol("He").build(),
 			Parceiros.builder().position(3).name("Lithium").weight(new  BigDecimal("6.941")).symbol("Li").build(),
@@ -129,6 +130,6 @@ public class ParceirosDataSource {
 			Parceiros.builder().position(117).name("Tennessine").weight(new  BigDecimal("294")).symbol("Ts").build(),
 			Parceiros.builder().position(118).name("Oganesson").weight(new  BigDecimal("294")).symbol("Og").build(),
 			Parceiros.builder().position(119).name("Teste119").weight(new  BigDecimal("87.45")).symbol("Ts").build()
-        );
+		));
     }
 }

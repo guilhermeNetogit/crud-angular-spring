@@ -6,7 +6,11 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import com.guilhermeneto.crud_spring.enums.StatusEnum;
+import com.guilhermeneto.crud_spring.enums.converters.StatusConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +18,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,14 +57,13 @@ public class Parceiros {
     private String symbol;
 
     @Builder.Default
-    @Length(max = 8)
-    @Pattern(regexp = "Ativo|Inativo")
     @Column(length = 8, nullable = false)
-    private String status = "Ativo";
+    @Convert(converter = StatusConverter.class)
+    private StatusEnum status = StatusEnum.ATIVO;
 
     @PrePersist
         public void ensureStatus() {
             if (this.status == null)
-                this.status = "Ativo";
+                this.status = StatusEnum.ATIVO;
         }
 }

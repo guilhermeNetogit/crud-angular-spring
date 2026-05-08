@@ -5,7 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, min } from 'rxjs';
 import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
-import { Parceiro, ParceirosService } from '../../services/parceiros';
+import { Parceiro } from '../../models/parceiro';
+import { ParceirosService } from '../../services/parceiros';
 
 @Component({
   selector: 'app-parceiros-form',

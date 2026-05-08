@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { of } from 'rxjs';
-import { Parceiro, ParceirosService } from '../services/parceiros';
+import { Parceiro } from '../models/parceiro';
+import { ParceirosService } from '../services/parceiros';
 
 export const ParceirosResolver: ResolveFn<Parceiro> = (
   route: ActivatedRouteSnapshot,
@@ -13,5 +14,5 @@ export const ParceirosResolver: ResolveFn<Parceiro> = (
   if (route.params && id) {
     return service.loadById(id);
   }
-  return of({ id: null as any, position: 0, name: '', weight: 0, symbol: '' });
+  return of({ id: null as any, position: 1, name: '', weight: 1, symbol: '', contatos:[] });
 };

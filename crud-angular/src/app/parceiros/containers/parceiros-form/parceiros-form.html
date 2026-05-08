@@ -29,7 +29,10 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Symbol</mat-label>
-        <input matInput placeholder="Ex: Sy" formControlName="symbol">
+        <input matInput #input maxlength="2" placeholder="Ex: Sy" formControlName="symbol">
+        @if (form.get('symbol')?.invalid) {
+        <mat-error>{{ getErrorMessage('symbol') }}</mat-error>
+        }
       </mat-form-field>
 
       <mat-toolbar color="primary" class="contact-toolbar">
@@ -47,7 +50,6 @@
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Nome do Contato</mat-label>
               <input matInput formControlName="nomecontato" placeholder="Ex: João">
-              <mat-hint align="end">Max. 40 caracteres</mat-hint>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">
@@ -67,7 +69,7 @@
             </mat-form-field>
 
             <button mat-icon-button color="warn" (click)="removeContato(i)" type="button" style="margin-top: 10px;">
-              <mat-icon>delete</mat-icon>
+              <mat-icon aria-label="Remover um novo contato">delete</mat-icon>
             </button>
           </div>
         } @empty {

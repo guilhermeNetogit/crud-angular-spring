@@ -31,7 +31,7 @@ export class ParceirosForm implements OnInit {
       position: [1],
       name: ['', [Validators.required, Validators.minLength(2)]],
       weight: [1],
-      symbol: [''],
+      symbol: ['', [Validators.required, Validators.maxLength(2)]],
       contatos: this.formBuilder.array([]),
     });
   }
@@ -63,6 +63,14 @@ export class ParceirosForm implements OnInit {
     return this.form.get('contatos') as FormArray;
   }
 
+  addContato() {
+    this.getContatosFormArray().push(this.createContato());
+  }
+
+  removeContato(index: number) {
+    this.getContatosFormArray().removeAt(index);
+  }
+
   private obterContato(parceiro: Parceiro) {
     const contatos = [];
     if (parceiro?.contatos) {
@@ -85,14 +93,6 @@ export class ParceirosForm implements OnInit {
     });
   }
 
-  addContato() {
-    this.getContatosFormArray().push(this.createContato());
-  }
-
-  removeContato(index: number) {
-    this.getContatosFormArray().removeAt(index);
-  }
-
   private onSuccess() {
     this.snackBar.open('Registro salvo com suceero!', 'Ok', { duration: 5000 });
     this.onCancel();
@@ -104,6 +104,12 @@ export class ParceirosForm implements OnInit {
 
   async onSave() {
     const contatosArray = this.getContatosFormArray();
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.snackBar.open('Verifique os campos obrigatórios!', 'Ok', { duration: 3000 });
+      return;
+    }
 
     for (let i = contatosArray.length - 1; i >= 0; i--) {
       const contato = contatosArray.at(i).value;
@@ -137,7 +143,6 @@ export class ParceirosForm implements OnInit {
         const controlErros = this.form.get(key)?.errors;
         if (controlErros) console.log('Campos inválidos:' + key, controlErros);
       });
-      this.snackBar.open('Verifique os campos obrigatórios!', 'Ok', { duration: 3000 });
     }
   }
 
@@ -150,10 +155,16 @@ export class ParceirosForm implements OnInit {
     if (field?.hasError('required')) {
       return 'O campo é obrigatório';
     }
+
     if (field?.hasError('minlength')) {
       const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 2;
       return `Tamanho mín. ${requiredLength} caracteres.`;
     }
+
+    if (field?.hasError('maxlength')) {
+        return `Tamanho máx. 2 caracteres.`;
+    }
+
     return 'Campo inválido!';
   }
 }

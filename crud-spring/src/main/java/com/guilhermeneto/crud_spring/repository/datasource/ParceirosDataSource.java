@@ -1,4 +1,4 @@
-package com.guilhermeneto.crud_spring.repository;
+package com.guilhermeneto.crud_spring.repository.datasource;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

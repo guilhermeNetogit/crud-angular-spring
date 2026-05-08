@@ -1,6 +1,9 @@
 package com.guilhermeneto.crud_spring.dtos;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.guilhermeneto.crud_spring.models.Contatos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -18,5 +21,6 @@ public record ParceiroResponseDto(
     @Schema(example = "Xy")
     String symbol,
     @Schema(example = "100.99")
-    BigDecimal weight
+    BigDecimal weight,
+    List<ContatosResponseDto> contatos
 ) {}

@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, catchError, Observable, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, of, switchMap, tap } from 'rxjs';
 import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
 import { ErrorDialog } from '../../../shared/components/error-dialog/error-dialog';
 import { ParceirosList } from "../../components/parceiros-list/parceiros-list";
@@ -32,13 +32,16 @@ export class Parceiros {
 edit($event: number) {
 throw new Error('Method not implemented.');
 }
+loadingError = signal(false);
 
 private readonly refresh$ = new BehaviorSubject<void>(undefined);
 
 readonly parceiros$: Observable<PeriodicElement[]> = this.refresh$.pipe(
+    tap(() => this.loadingError.set(false)),
     switchMap(() => this.parceirosService.findAll().pipe(
       catchError((error) => {
-        console.error('ERRO REAL AQUI:', error);
+        console.error('ERRO NO SERVIDOR DE BANCO DE DADOS:', error);
+        this.loadingError.set(true);
         this.openError('Não foi possível carregar os dados!');
         return of([]);
       }),

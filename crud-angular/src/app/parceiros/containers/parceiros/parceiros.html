@@ -1,11 +1,20 @@
 <mat-card>
 
-  @if (parceiros$ | async) {
+  @if (parceiros$ | async; as lista) {
 
-  <app-parceiros-list [dataSource]="dataSource" (add)="onAdd()"
-  (edit)="onEdit($event)"
-  (delete)="onDelete($event)">
+  @if (lista.length > 0) {
+  <app-parceiros-list [dataSource]="dataSource" (add)="onAdd()" (edit)="onEdit($event)" (delete)="onDelete($event)">
   </app-parceiros-list>
+  } @else {
+  <!-- Mensagem amigável que aparece após fechar o Dialog -->
+  <div class="error-state">
+    <mat-icon color="warn">cloud_off</mat-icon>
+    <p>O servidor parece estar offline no momento.</p>
+    <button mat-raised-button color="primary" (click)="refresh()">
+      Tentar Novamente
+    </button>
+  </div>
+  }
 
   } @else {
   <div class="load-spinner">

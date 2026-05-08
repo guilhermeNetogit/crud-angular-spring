@@ -1,18 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, first, tap } from 'rxjs';
-
-export interface Parceiro {
-  id: number;
-  position: number;
-  name: string;
-  weight: number;
-  symbol: string;
-}
+import { first } from 'rxjs';
+import { Parceiro } from '../models/parceiro';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class ParceirosService {
 
   private readonly API = 'api/parceiros';
@@ -21,10 +15,6 @@ export class ParceirosService {
   }
   private update(record: Partial<Parceiro>) {
     return this.httpClient.put<Parceiro>(`${this.API}/${record.id}`, record);
-  }
-
-  delete(id: number) {
-    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
 
   constructor(private httpClient: HttpClient) {}
@@ -38,6 +28,10 @@ export class ParceirosService {
     );
   }
 
+  loadById(id: number) {
+    return this.httpClient.get<Parceiro>(`${this.API}/${id}`);
+  }
+
   save(record: Parceiro) {
     console.log(record);
     if (record.id) {
@@ -48,7 +42,7 @@ export class ParceirosService {
     return this.create(record);
   }
 
-  loadById(id: number) {
-    return this.httpClient.get<Parceiro>(`${this.API}/${id}`);
+  delete(id: number) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
 }

@@ -18,9 +18,10 @@ public class ParceiroMapper {
         }
 
         List<ContatosResponseDto> contatosDto = parceiro.getContatos()
-                    .stream()
-                    .map(c -> new ContatosResponseDto(c.getCodcontato(), c.getEmail(), c.getNomecontato(),c.getTelefone(),c.getSiteurl()))
-                    .toList();
+            .stream()
+            .map(c -> new ContatosResponseDto(
+            c.getCodcontato(), c.getEmail(), c.getNomecontato(),c.getTelefone(),c.getSiteurl()))
+            .toList();
 
         return new ParceiroResponseDto(
              parceiro.getId(),

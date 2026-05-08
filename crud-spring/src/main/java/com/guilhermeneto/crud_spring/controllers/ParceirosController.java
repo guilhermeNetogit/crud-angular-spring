@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.guilhermeneto.crud_spring.dtos.ParceiroRequestDto;
 import com.guilhermeneto.crud_spring.dtos.ParceiroResponseDto;
 import com.guilhermeneto.crud_spring.services.ParceirosService;
 
@@ -24,7 +25,7 @@ import jakarta.validation.Valid;
 @Tag(name = "Parceiros", description = "Gerenciamento de parceiros do sistema")
 public class ParceirosController {
 
-    private ParceirosService parceiroService;
+    private final ParceirosService parceiroService;
 
     public ParceirosController(ParceirosService parceiroService) {
         this.parceiroService = parceiroService;
@@ -36,18 +37,18 @@ public class ParceirosController {
     }
 
     @GetMapping("/{id}")
-    public ParceiroResponseDto getOne(@PathVariable @Valid Integer id) {
+    public ParceiroResponseDto getOne(@PathVariable Integer id) {
         return parceiroService.getOne(id);
     }
 
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ParceiroResponseDto save(@RequestBody @Valid ParceiroResponseDto parceiro) {
+    public ParceiroResponseDto save(@RequestBody @Valid ParceiroRequestDto parceiro) {
         return parceiroService.save(parceiro);
     }
 
     @PutMapping("/{id}")
-    public ParceiroResponseDto update(@PathVariable Integer id, @RequestBody @Valid ParceiroResponseDto parceiro) {
+    public ParceiroResponseDto update(@PathVariable Integer id, @RequestBody ParceiroRequestDto parceiro) {
         return parceiroService.update(id, parceiro);
     }
     

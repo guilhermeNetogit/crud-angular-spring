@@ -9,8 +9,9 @@ import org.springframework.context.annotation.Bean;
 
 import com.guilhermeneto.crud_spring.models.Contatos;
 import com.guilhermeneto.crud_spring.models.Parceiros;
-import com.guilhermeneto.crud_spring.repository.ParceirosDataSource;
 import com.guilhermeneto.crud_spring.repository.ParceirosRepository;
+import com.guilhermeneto.crud_spring.repository.datasource.ContatosDatasource;
+import com.guilhermeneto.crud_spring.repository.datasource.ParceirosDataSource;
 
 @SpringBootApplication
 public class CrudSpringApplication {
@@ -32,16 +33,7 @@ public class CrudSpringApplication {
 
 		List<Parceiros> lista = ParceirosDataSource.getParceiros();
 
-		Contatos c = new Contatos();
-			c.setNomecontato("Vendedor 1");
-			c.setTelefone("3433363232");
-			c.setEmail("vendedor1@loja1.com.br");
-
-		if (!lista.isEmpty()) {
-			Parceiros p = lista.get(0);
-			c.setParceiros(p);
-			p.getContatos().add(c);
-		}
+		ContatosDatasource.getContatos(lista);
 		
 		parceirosRepository.saveAll(lista);
 		

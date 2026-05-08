@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.guilhermeneto.crud_spring.dtos.ParceiroRequestDto;
 import com.guilhermeneto.crud_spring.dtos.ParceiroResponseDto;
 import com.guilhermeneto.crud_spring.dtos.mapper.ParceiroMapper;
 import com.guilhermeneto.crud_spring.exceptions.RecordNotFound;
@@ -40,18 +41,20 @@ public class ParceirosService {
                 .orElse(ResponseEntity.notFound().build());*/
     }
 
-    public ParceiroResponseDto save(@Valid @NotNull ParceiroResponseDto parceiro) {
-        return parceiroMapper.tDto(parceiroRepository.save(parceiroMapper.toEntity(parceiro)));
+    public ParceiroResponseDto save(@Valid @NotNull ParceiroRequestDto parceiroDto) {
+
+        Parceiros entity = parceiroMapper.toEntity(parceiroDto);
+        return parceiroMapper.tDto(parceiroRepository.save(entity));
         /* return ResponseEntity.status(201).body(parceiroRepository.save(parceiro)); */
     }
 
-    public ParceiroResponseDto update(Integer id, @Valid @NotNull ParceiroResponseDto parceiro) {
+    public ParceiroResponseDto update(Integer id, @Valid @NotNull ParceiroRequestDto parceiroDto) {
         return parceiroRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(parceiro.name());
-                    recordFound.setPosition(parceiro.position());
-                    recordFound.setSymbol(parceiro.symbol());
-                    recordFound.setWeight(parceiro.weight());
+                    recordFound.setName(parceiroDto.name());
+                    recordFound.setPosition(parceiroDto.position());
+                    recordFound.setSymbol(parceiroDto.symbol());
+                    recordFound.setWeight(parceiroDto.weight());
 
                     return parceiroRepository.save(recordFound);
                 }).map(parceiroMapper::tDto).orElseThrow(() -> new RecordNotFound(id));

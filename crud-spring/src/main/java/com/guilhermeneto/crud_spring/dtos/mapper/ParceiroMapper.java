@@ -1,7 +1,11 @@
 package com.guilhermeneto.crud_spring.dtos.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.guilhermeneto.crud_spring.dtos.ContatosResponseDto;
+import com.guilhermeneto.crud_spring.dtos.ParceiroRequestDto;
 import com.guilhermeneto.crud_spring.dtos.ParceiroResponseDto;
 import com.guilhermeneto.crud_spring.models.Parceiros;
 
@@ -13,30 +17,34 @@ public class ParceiroMapper {
             return null;
         }
 
+        List<ContatosResponseDto> contatosDto = parceiro.getContatos()
+                    .stream()
+                    .map(c -> new ContatosResponseDto(c.getCodcontato(), c.getEmail(), c.getNomecontato(),c.getTelefone(),c.getSiteurl()))
+                    .toList();
+
         return new ParceiroResponseDto(
              parceiro.getId(),
              parceiro.getName(),
              parceiro.getPosition(),
              parceiro.getSymbol(),
-             parceiro.getWeight()
+             parceiro.getWeight(),
+             contatosDto
         );
     }
 
-    public Parceiros toEntity(ParceiroResponseDto parceiroResponseDto) {
+    public Parceiros toEntity(ParceiroRequestDto dto) {
 
-        if (parceiroResponseDto == null) {
+        if (dto == null) {
             return null;
         }
 
         Parceiros parceiros = new Parceiros();
-        if (parceiroResponseDto.id() != null) {
-            parceiros.setId(parceiroResponseDto.id());
-        }
-        parceiros.setName(parceiroResponseDto.name());
-        parceiros.setPosition(parceiroResponseDto.position());
-        parceiros.setSymbol(parceiroResponseDto.symbol());
-        parceiros.setWeight(parceiroResponseDto.weight());        
-
+        
+        parceiros.setName(dto.name());
+        parceiros.setPosition(dto.position());
+        parceiros.setSymbol(dto.symbol());
+        parceiros.setWeight(dto.weight());  
+        
         return parceiros;
     }
 }

@@ -1,5 +1,10 @@
 package com.guilhermeneto.crud_spring.dtos;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.guilhermeneto.crud_spring.models.Contatos;
+
 import jakarta.validation.constraints.NotBlank;
 
 public record ParceiroRequestDto(
@@ -8,4 +13,5 @@ public record ParceiroRequestDto(
     String name,
     Integer position,
     String symbol,
-    Integer weight) {}
+    BigDecimal weight,
+    List<Contatos> contatos) {}

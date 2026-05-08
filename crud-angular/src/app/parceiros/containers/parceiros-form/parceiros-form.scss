@@ -33,7 +33,7 @@ form {
   gap: 10px;
 
   mat-form-field {
-    width: 100%; // Faz ocupar a largura total
+    width: 100%; margin-bottom: 10px;
   }
 }
 
@@ -44,6 +44,24 @@ form {
     width: 100%; // Ocupa tudo no celular
     border-radius: 0; // Opcional: remove arredondamento nas bordas da tela
   }
+
+  .contact-toolbar {
+  border-radius: 4px;
+  margin: 20px 0 10px 0;
+  height: 48px !important; // Deixa mais slim
+  font-size: 16px;
+}
+
+.contact-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.full-width {
+  flex: 1;
+}
 
   mat-toolbar {
     border-radius: 0;

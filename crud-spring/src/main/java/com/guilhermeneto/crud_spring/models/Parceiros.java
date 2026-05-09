@@ -18,7 +18,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -40,7 +39,6 @@ import lombok.NoArgsConstructor;
 
 public class Parceiros {
 
-    @Positive
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -58,6 +56,8 @@ public class Parceiros {
     @Column(nullable = true, length = 10, scale = 6)
     private BigDecimal weight;
 
+    @NotNull
+    @Length(min = 1, max = 2)
     @Column(nullable = false, length = 2)
     private String symbol;
 
@@ -68,6 +68,7 @@ public class Parceiros {
 
     @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "parceiros")
+
     private List<Contatos> contatos = new ArrayList<>();
     
     @PrePersist
@@ -75,4 +76,11 @@ public class Parceiros {
             if (this.status == null)
                 this.status = StatusEnum.ATIVO;
         }
+
+    public void setContatos(List<Contatos> contatos) {
+        this.contatos = contatos;
+        if (contatos != null) {
+            contatos.forEach(contato -> contato.setParceiros(this));
+        }
+    }
 }

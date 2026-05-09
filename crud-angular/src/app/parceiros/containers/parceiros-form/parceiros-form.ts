@@ -50,9 +50,6 @@ export class ParceirosForm implements OnInit {
       this.value.set(parceiro.name || '');
     }
 
-    console.log(this.form);
-    console.log(this.form.value);
-
     const contatosFormArray = this.getContatosFormArray();
     parceiro.contatos?.forEach((contato) => {
       contatosFormArray.push(this.createContato(contato));

@@ -1,5 +1,7 @@
 package com.guilhermeneto.crud_spring.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -20,6 +23,7 @@ public class Contatos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codcontato;
 
+    @NotBlank
     @Column(nullable = false, length = 30)
     private String nomecontato;
 
@@ -32,5 +36,6 @@ public class Contatos {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "codparc_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Parceiros parceiros;
 }

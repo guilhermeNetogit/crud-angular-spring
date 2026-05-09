@@ -7,7 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.guilhermeneto.crud_spring.models.Contatos;
 import com.guilhermeneto.crud_spring.models.Parceiros;
 import com.guilhermeneto.crud_spring.repository.ParceirosRepository;
 import com.guilhermeneto.crud_spring.repository.datasource.ContatosDatasource;

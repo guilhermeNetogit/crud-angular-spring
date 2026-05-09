@@ -44,6 +44,11 @@ public class ParceirosService {
     public ParceiroResponseDto save(@Valid @NotNull ParceiroRequestDto parceiroDto) {
 
         Parceiros entity = parceiroMapper.toEntity(parceiroDto);
+
+        if (entity.getContatos() != null) {
+                entity.getContatos().forEach(contato -> contato.setParceiros(entity));
+            }
+            
         return parceiroMapper.tDto(parceiroRepository.save(entity));
         /* return ResponseEntity.status(201).body(parceiroRepository.save(parceiro)); */
     }

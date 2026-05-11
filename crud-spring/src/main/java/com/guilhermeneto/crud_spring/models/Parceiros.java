@@ -53,7 +53,7 @@ public class Parceiros {
     private String name;
 
     @Positive
-    @Column(nullable = true, length = 10, scale = 6)
+    @Column(nullable = true, length = 10, scale = 2)
     private BigDecimal weight;
 
     @NotNull
@@ -70,17 +70,25 @@ public class Parceiros {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "parceiros")
 
     private List<Contatos> contatos = new ArrayList<>();
-    
+
     @PrePersist
-        public void ensureStatus() {
-            if (this.status == null)
-                this.status = StatusEnum.ATIVO;
+    public void ensureStatus() {
+        if (this.status == null)
+            this.status = StatusEnum.ATIVO;
+    }
+
+    public void setContatos(List<Contatos> novosContatos) {
+        if (this.contatos == null) {
+            this.contatos = new ArrayList<>();
         }
 
-    public void setContatos(List<Contatos> contatos) {
-        this.contatos = contatos;
-        if (contatos != null) {
-            contatos.forEach(contato -> contato.setParceiros(this));
+        this.contatos.clear();
+
+        if (novosContatos != null) {
+            novosContatos.forEach(contato -> {
+                contato.setParceiros(this);
+                this.contatos.add(contato);
+            });
         }
     }
 }

@@ -30,12 +30,12 @@ public class ParceirosService {
     public List<ParceiroResponseDto> getParceiros() {
         List<Parceiros> parceiros =  parceiroRepository.findAll();
         return parceiros.stream()
-        .map(parceiroMapper::tDto)
+        .map(parceiroMapper::toDto)
         .toList();
     }
 
     public ParceiroResponseDto getOne(@Valid Integer id) {
-        return parceiroRepository.findById(id).map(parceiroMapper::tDto)
+        return parceiroRepository.findById(id).map(parceiroMapper::toDto)
         .orElseThrow(() -> new RecordNotFound(id));/*
                 .map(recordFound -> ResponseEntity.ok().body(recordFound))
                 .orElse(ResponseEntity.notFound().build());*/
@@ -49,20 +49,22 @@ public class ParceirosService {
                 entity.getContatos().forEach(contato -> contato.setParceiros(entity));
             }
             
-        return parceiroMapper.tDto(parceiroRepository.save(entity));
+        return parceiroMapper.toDto(parceiroRepository.save(entity));
         /* return ResponseEntity.status(201).body(parceiroRepository.save(parceiro)); */
     }
 
     public ParceiroResponseDto update(Integer id, @Valid @NotNull ParceiroRequestDto parceiroDto) {
         return parceiroRepository.findById(id)
                 .map(recordFound -> {
+                    Parceiros parceiros = parceiroMapper.toEntity(parceiroDto);
                     recordFound.setName(parceiroDto.name());
                     recordFound.setPosition(parceiroDto.position());
                     recordFound.setSymbol(parceiroDto.symbol());
                     recordFound.setWeight(parceiroDto.weight());
+                    recordFound.setContatos(parceiros.getContatos());
 
                     return parceiroRepository.save(recordFound);
-                }).map(parceiroMapper::tDto).orElseThrow(() -> new RecordNotFound(id));
+                }).map(parceiroMapper::toDto).orElseThrow(() -> new RecordNotFound(id));
     }
 
     public void delete(@Valid Integer id) {

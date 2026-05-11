@@ -1,7 +1,5 @@
 import {
-  FormGroup,
   UntypedFormGroup,
-  FormArray,
   UntypedFormArray,
   UntypedFormControl,
 } from '@angular/forms';
@@ -10,13 +8,14 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
+
 export class FormUtilsService {
   validateAllFormFields(formGroup: UntypedFormGroup | UntypedFormArray) {
     Object.keys(formGroup.controls).forEach((field) => {
       const control = formGroup.get(field);
       if (control instanceof UntypedFormControl) {
         control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof UntypedFormGroup || control instanceof UntypedFormArray) {
+        } else if (control instanceof UntypedFormGroup || control instanceof UntypedFormArray) {
         control.markAsTouched({ onlySelf: true });
         this.validateAllFormFields(control);
       }
@@ -51,7 +50,7 @@ export class FormUtilsService {
     formArrayName: string,
     fieldName: string,
     index: number,
-  ) {
+    ) {
     const formArray = formGroup.get(formArrayName) as UntypedFormArray;
     const field = formArray.controls[index].get(fieldName) as UntypedFormControl;
     return this.getErrorMessageFromField(field);

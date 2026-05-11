@@ -174,3 +174,10 @@
       margin-block: 1.5rem;
     }
   }
+
+  .logo-toolbar {
+    height: 40px;      /* Ajuste conforme a altura da sua barra */
+    width: auto;       /* Mantém a proporção */
+    margin-right: 15px; /* Dá um espaço entre a logo e o texto */
+    vertical-align: middle; /* Alinha verticalmente com o texto */
+  }

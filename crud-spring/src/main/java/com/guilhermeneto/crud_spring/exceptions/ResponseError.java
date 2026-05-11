@@ -8,6 +8,9 @@ public class ResponseError {
     private String status = "error";
     private int statusCode = 400;
     private String error;
+
+	public ResponseError() {}
+
 	public Date getTimestamp() {
 		return timestamp;
 	}

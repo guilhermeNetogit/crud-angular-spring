@@ -18,7 +18,7 @@
           (input)="onInput($event)">
         <mat-hint align="end">{{value().length}}/40</mat-hint>
         @if (form.get('name')?.invalid) {
-        <mat-error>{{getErrorMessage('name')}}</mat-error>
+        <mat-error>{{formUtils.getErrorMessage(form, 'name')}}</mat-error>
         }
       </mat-form-field>
 
@@ -31,7 +31,7 @@
         <mat-label>Symbol</mat-label>
         <input matInput #input maxlength="2" placeholder="Ex: Sy" formControlName="symbol">
         @if (form.get('symbol')?.invalid) {
-        <mat-error>{{ getErrorMessage('symbol') }}</mat-error>
+        <mat-error>{{ formUtils.getErrorMessage(form, 'symbol') }}</mat-error>
         }
       </mat-form-field>
 
@@ -54,7 +54,7 @@
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="telefone" placeholder="Ex: xx xxxxxxxx">
+              <input matInput formControlName="telefone" placeholder="Ex: 55 55555555">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">

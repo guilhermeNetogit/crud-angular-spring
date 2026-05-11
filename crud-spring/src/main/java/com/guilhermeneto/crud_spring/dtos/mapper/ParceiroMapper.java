@@ -1,18 +1,20 @@
 package com.guilhermeneto.crud_spring.dtos.mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.guilhermeneto.crud_spring.dtos.ContatosResponseDto;
 import com.guilhermeneto.crud_spring.dtos.ParceiroRequestDto;
 import com.guilhermeneto.crud_spring.dtos.ParceiroResponseDto;
+import com.guilhermeneto.crud_spring.models.Contatos;
 import com.guilhermeneto.crud_spring.models.Parceiros;
 
 @Component
 public class ParceiroMapper {
     
-    public ParceiroResponseDto tDto(Parceiros parceiro) {
+    public ParceiroResponseDto toDto(Parceiros parceiro) {
         if (parceiro == null) {
             return null;
         }
@@ -20,7 +22,7 @@ public class ParceiroMapper {
         List<ContatosResponseDto> contatosDto = parceiro.getContatos()
             .stream()
             .map(c -> new ContatosResponseDto(
-            c.getCodcontato(), c.getEmail(), c.getNomecontato(),c.getTelefone(),c.getSiteurl()))
+            c.getCodcontato(), c.getNomecontato(),c.getTelefone(), c.getEmail(), c.getSiteurl()))
             .toList();
 
         return new ParceiroResponseDto(
@@ -45,7 +47,21 @@ public class ParceiroMapper {
         parceiros.setPosition(dto.position());
         parceiros.setSymbol(dto.symbol());
         parceiros.setWeight(dto.weight());  
-        
+
+        if (dto.contatos() !=null) {
+
+        List<Contatos> contatos = dto.contatos().stream().map(contatosDto -> {
+            var contato = new Contatos();
+            contato.setNomecontato(contatosDto.nomecontato());
+            contato.setTelefone(contatosDto.telefone());
+            contato.setEmail(contatosDto.email());
+            contato.setSiteurl(contatosDto.siteurl());
+            contato.setParceiros(parceiros);
+            return contato;
+        }).collect(Collectors.toList());  
+
+        parceiros.setContatos(contatos);     
+        }
         return parceiros;
     }
 }

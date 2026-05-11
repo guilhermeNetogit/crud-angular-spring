@@ -1,3 +1,4 @@
+import { FormUtilsService } from './../../../shared/form/form-utils';
 import { Location } from '@angular/common';
 import { Component, OnInit, signal, Input } from '@angular/core';
 import { FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -25,7 +26,8 @@ export class ParceirosForm implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private route: ActivatedRoute,
-  ) {
+    public formUtils: FormUtilsService
+    ) {
     this.form = this.formBuilder.group({
       id: [''],
       position: [1],
@@ -145,23 +147,5 @@ export class ParceirosForm implements OnInit {
 
   onCancel() {
     this.location.back();
-  }
-
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-    if (field?.hasError('required')) {
-      return 'O campo é obrigatório';
-    }
-
-    if (field?.hasError('minlength')) {
-      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 2;
-      return `Tamanho mín. ${requiredLength} caracteres.`;
-    }
-
-    if (field?.hasError('maxlength')) {
-        return `Tamanho máx. 2 caracteres.`;
-    }
-
-    return 'Campo inválido!';
   }
 }

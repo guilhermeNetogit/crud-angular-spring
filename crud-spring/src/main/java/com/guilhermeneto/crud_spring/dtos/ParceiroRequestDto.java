@@ -4,11 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record ParceiroRequestDto(
 
     @NotBlank(message = "O campo name não pode ficar em branco.")
-    String name,
+    @NotBlank @NotNull String name,
     Integer position,
     String symbol,
     BigDecimal weight,

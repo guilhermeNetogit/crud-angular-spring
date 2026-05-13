@@ -29,7 +29,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 @SQLDelete(sql = "UPDATE TGFPAR SET status = 'Inativo' WHERE id = ?")
 @SQLRestriction("status = 'Ativo'")
-@Table(name = "TGFPAR")
+@Table(name = "TGFPAR", schema = "dbo", catalog = "MY_DB_PROD")
 
 public class Parceiros {
 

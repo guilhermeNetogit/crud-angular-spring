@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +35,16 @@ public class ParceirosService {
         this.parceiroMapper = parceiroMapper;
     }
 
-    public ParceiroPageDto getParceiros(@PositiveOrZero int page, @Positive @Max(20) int pageSize) {
-        Page<Parceiros> pageParceiro = parceiroRepository.findAll(PageRequest.of(page, pageSize));
+    public ParceiroPageDto getParceiros(@PositiveOrZero int page, @Positive @Max(100) int size, String name) {
+        Page<Parceiros> pageParceiro;
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (name != null && !name.trim().isEmpty()) {
+                pageParceiro = parceiroRepository.findByNameContainingIgnoreCase(name, pageable);
+            } else {
+                pageParceiro = parceiroRepository.findAll(pageable);
+            }
+
         List<ParceiroResponseDto> parceiros = pageParceiro.getContent().stream()
                 .map(parceiroMapper::toDto)
                 .collect(Collectors.toList());
@@ -54,10 +63,7 @@ public class ParceirosService {
 
     public ParceiroResponseDto getOne(@Valid Integer id) {
         return parceiroRepository.findById(id).map(parceiroMapper::toDto)
-                .orElseThrow(() -> new RecordNotFound(id));/*
-                                                            * .map(recordFound -> ResponseEntity.ok().body(recordFound))
-                                                            * .orElse(ResponseEntity.notFound().build());
-                                                            */
+                .orElseThrow(() -> new RecordNotFound(id));
     }
 
     public ParceiroResponseDto save(@Valid @NotNull ParceiroRequestDto parceiroDto) {

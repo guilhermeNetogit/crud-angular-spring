@@ -17,7 +17,7 @@ export class ParceirosList {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filter.emit(filterValue.trim().toLowerCase());
   }
 
   @ViewChild(MatSort) set MatSort(sort: MatSort) {
@@ -39,6 +39,7 @@ export class ParceirosList {
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter<number>();
   @Output() delete = new EventEmitter<number>();
+  @Output() filter = new EventEmitter<string>();
 
   onAdd() {
     this.add.emit(true);

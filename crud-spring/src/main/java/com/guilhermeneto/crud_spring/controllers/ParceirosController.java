@@ -36,10 +36,11 @@ public class ParceirosController {
 
     @GetMapping()
     public ParceiroPageDto getParceiros(
-        @RequestParam(defaultValue = "0") @PositiveOrZero int page, 
-        @RequestParam(defaultValue = "10") @Positive @Max(20) int pageSize
+        @RequestParam(value = "page", defaultValue = "0") @PositiveOrZero int page, 
+        @RequestParam(value = "size", defaultValue = "10") @Positive @Max(100) int size,
+        @RequestParam(value = "name", defaultValue = "") String name
     ) {
-        return parceiroService.getParceiros(page, pageSize);
+        return parceiroService.getParceiros(page, size, name);
     }
 
     @GetMapping("/{id}")

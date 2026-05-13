@@ -2,9 +2,21 @@
 
   @if (parceiros$ | async; as lista) {
 
-  @if (lista.length > 0) {
-  <app-parceiros-list [dataSource]="dataSource" (add)="onAdd()" (edit)="onEdit($event)" (delete)="onDelete($event)">
+  @if (lista.parceiros.length > 0) {
+  <app-parceiros-list
+    [dataSource]="dataSource"
+    (add)="onAdd()"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (filter)="applyFilter($event)">
   </app-parceiros-list>
+  <mat-paginator
+  [pageSizeOptions]="[5, 10, 25, 50]"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
+  [length]="lista.totalElements"
+  (page)="onPageChange($event)"
+  showFirstLastButtons aria-label="Select page of partners"></mat-paginator>
   } @else {
   <!-- Mensagem amigável que aparece após fechar o Dialog -->
   <div class="error-state">

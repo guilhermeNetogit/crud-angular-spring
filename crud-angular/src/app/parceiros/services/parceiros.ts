@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
 import { Parceiro } from '../models/parceiro';
+import { ParceiroPage } from '../models/parceiro-page';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +20,18 @@ export class ParceirosService {
 
   constructor(private httpClient: HttpClient) {}
 
-  findAll() {
-    return this.httpClient.get<Parceiro[]>(this.API)
+  findAll(page = 0, pageSize = 10, name = '') {
+    let params = new HttpParams()
+          .set('page', page.toString())
+          .set('size', pageSize.toString());
+
+    if (name && name.trim() !== '') {
+        params = params.set('name', name);
+      }
+
+    return this.httpClient.get<ParceiroPage>(this.API, { params })
     .pipe(
-      first(),
+      first()
       //delay(1200),
       //tap(parceiros => console.log(parceiros))
     );

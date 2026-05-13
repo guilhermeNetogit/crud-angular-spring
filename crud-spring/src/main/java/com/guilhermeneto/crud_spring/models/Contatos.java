@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "TGFCONT")
+@Table(name = "TGFCONT", schema = "dbo", catalog = "MY_DB_PROD")
 public class Contatos {
 
     @Id

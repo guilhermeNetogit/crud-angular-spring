@@ -1,18 +1,29 @@
-import { FormUtilsService } from './../../../shared/form/form-utils';
 import { Location } from '@angular/common';
-import { Component, OnInit, signal, Input } from '@angular/core';
-import { FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, signal } from '@angular/core';
+import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, min } from 'rxjs';
-import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
+import { firstValueFrom, } from 'rxjs';
+import { FormUtilsService } from './../../../shared/form/form-utils';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Contato } from '../../models/contato';
 import { Parceiro } from '../../models/parceiro';
 import { ParceirosService } from '../../services/parceiros';
-import { Contato } from '../../models/contato';
 
 @Component({
   selector: 'app-parceiros-form',
-  imports: [AppMaterialModule],
+  imports: [ReactiveFormsModule,
+      MatFormFieldModule,
+      MatIconModule,
+      MatInputModule,
+      MatButtonModule,
+      MatCardModule, MatToolbarModule],
   templateUrl: './parceiros-form.html',
   styleUrl: './parceiros-form.scss',
 })
@@ -26,8 +37,8 @@ export class ParceirosForm implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private route: ActivatedRoute,
-    public formUtils: FormUtilsService
-    ) {
+    public formUtils: FormUtilsService,
+  ) {
     this.form = this.formBuilder.group({
       id: [''],
       position: [1],
@@ -125,11 +136,11 @@ export class ParceirosForm implements OnInit {
       }
 
       if (parceiroParaSalvar.symbol === '') {
-            parceiroParaSalvar.symbol = null;
-          }
+        parceiroParaSalvar.symbol = null;
+      }
 
-          parceiroParaSalvar.position = Number(parceiroParaSalvar.position);
-          parceiroParaSalvar.weight = Number(parceiroParaSalvar.weight);
+      parceiroParaSalvar.position = Number(parceiroParaSalvar.position);
+      parceiroParaSalvar.weight = Number(parceiroParaSalvar.weight);
 
       try {
         await firstValueFrom(this.service.save(parceiroParaSalvar));

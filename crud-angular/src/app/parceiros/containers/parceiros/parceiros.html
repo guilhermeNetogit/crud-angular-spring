@@ -2,23 +2,8 @@
 
   @if (parceiros$ | async; as lista) {
 
-  @if (lista.parceiros.length > 0) {
-  <app-parceiros-list
-    [dataSource]="dataSource"
-    (add)="onAdd()"
-    (edit)="onEdit($event)"
-    (delete)="onDelete($event)"
-    (filter)="applyFilter($event)">
-  </app-parceiros-list>
-  <mat-paginator
-  [pageSizeOptions]="[5, 10, 25, 50]"
-  [pageIndex]="pageIndex"
-  [pageSize]="pageSize"
-  [length]="lista.totalElements"
-  (page)="onPageChange($event)"
-  showFirstLastButtons aria-label="Select page of partners"></mat-paginator>
-  } @else {
-  <!-- Mensagem amigável que aparece após fechar o Dialog -->
+  @if (loadingError()) {
+  <!-- ESTADO 1: Erro real de conexão ou banco fora do ar -->
   <div class="error-state">
     <mat-icon color="warn">cloud_off</mat-icon>
     <p>O servidor parece estar offline no momento.</p>
@@ -26,9 +11,32 @@
       Tentar Novamente
     </button>
   </div>
+  } @else {
+
+  <!-- ESTADO 2: Tem dados na lista, mostra a tabela normalmente -->
+  <app-parceiros-list [dataSource]="dataSource" [filterValue]="filterValue" (add)="onAdd()" (edit)="onEdit($event)"
+    (delete)="onDelete($event)" (filter)="applyFilter($event)" (clear)="clearFilter()">
+  </app-parceiros-list>
+
+  @if (lista.parceiros && lista.parceiros.length > 0) {
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="pageIndex" [pageSize]="pageSize"
+    [length]="lista.totalElements" (page)="onPageChange($event)" showFirstLastButtons
+    aria-label="Select page of partners">
+  </mat-paginator>
+  } @else {
+  <!-- ESTADO 3: O servidor respondeu com sucesso, mas a busca deu vazia -->
+  <div class="empty-state" style="text-align: center; padding: 1.5rem;">
+    <mat-icon color="primary" style="font-size: 36px; width: 36px; height: 36px;">search_off</mat-icon>
+    <p>Nenhum registro encontrado para o filtro aplicado.</p>
+    <button mat-stroked-button color="warn" (click)="clearFilter()">
+      Limpar Filtro
+    </button>
+  </div>
+  }
   }
 
   } @else {
+  <!-- ESTADO 4: Aguardando resposta do servidor (Loading) -->
   <div class="load-spinner">
     <mat-spinner></mat-spinner>
   </div>

@@ -129,7 +129,7 @@ public class ParceirosDataSource {
 			new Parceiros(116, "Livermorium", new BigDecimal("293"), "Lv"),
 			new Parceiros(117, "Tennessine", new BigDecimal("294"), "Ts"),
 			new Parceiros(118, "Oganesson", new BigDecimal("294"), "Og"),
-			new Parceiros(119, "Teste119", new BigDecimal(294.745), "T9"))
+			new Parceiros(119, "Teste119", new BigDecimal(294.745), "Ts"))
 		);
     }
 }

@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,13 +7,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, of, switchMap, tap } from 'rxjs';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { ErrorDialog } from '../../../shared/components/error-dialog/error-dialog';
 import { ParceirosList } from '../../components/parceiros-list/parceiros-list';
-import { ParceirosService } from '../../services/parceiros';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
-import { ParceiroPage } from '../../models/parceiro-page';
 import { Parceiro } from '../../models/parceiro';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { ParceiroPage } from '../../models/parceiro-page';
+import { ParceirosService } from '../../services/parceiros';
 
 export interface PeriodicElement {
   id: number;
@@ -26,7 +29,11 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AsyncPipe, MatSortModule, ParceirosList, MatPaginatorModule],
+  imports: [AsyncPipe, CommonModule,
+  MatCardModule,
+  MatIconModule,
+  MatProgressSpinnerModule,
+  ParceirosList, MatSortModule, ParceirosList, MatPaginatorModule],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })
@@ -67,21 +74,28 @@ export class Parceiros {
           console.error('ERRO NO SERVIDOR DE BANCO DE DADOS:', error);
           this.loadingError.set(true);
           this.openError('Não foi possível carregar os dados!');
+          this.dataSource.data = [];
           return of({ parceiros: [], totalElements: 0, totalPages: 0 });
         }),
         tap((dados) => {
           console.log('Dados chegaram:', dados);
-          this.dataSource.data = dados.parceiros || [];
+          this.dataSource.data = [...(dados.parceiros || [])];
         }),
       ),
     ),
   );
 
   applyFilter(texto: string) {
-    this.filterValue = texto;
+    this.filterValue = texto.trim();
     this.pageIndex = 0;
     this.refresh();
   }
+
+  clearFilter() {
+      this.filterValue = '';
+      this.pageIndex = 0;
+      this.refresh();
+    }
 
   edit($event: number) {
     throw new Error('Method not implemented.');

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
+export const APP_ROUTES: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'parceiros'},
   {path: 'parceiros',
-    loadChildren: () => import('./parceiros/parceiros.module').then(m => m.ParceirosModule)
+    loadChildren: () => import('./parceiros/parceiros.routes').then(m => m.PARCEIROS_ROUTES)
   }
 ];

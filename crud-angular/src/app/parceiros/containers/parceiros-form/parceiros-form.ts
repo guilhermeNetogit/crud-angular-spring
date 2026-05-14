@@ -1,18 +1,29 @@
-import { FormUtilsService } from './../../../shared/form/form-utils';
 import { Location } from '@angular/common';
-import { Component, OnInit, signal, Input } from '@angular/core';
-import { FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, signal } from '@angular/core';
+import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, min } from 'rxjs';
+import { firstValueFrom, } from 'rxjs';
+import { FormUtilsService } from './../../../shared/form/form-utils';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Contato } from '../../models/contato';
 import { Parceiro } from '../../models/parceiro';
 import { ParceirosService } from '../../services/parceiros';
-import { Contato } from '../../models/contato';
 
 @Component({
   selector: 'app-parceiros-form',
-  imports: [],
+  imports: [ReactiveFormsModule,
+      MatFormFieldModule,
+      MatIconModule,
+      MatInputModule,
+      MatButtonModule,
+      MatCardModule, MatToolbarModule],
   templateUrl: './parceiros-form.html',
   styleUrl: './parceiros-form.scss',
 })

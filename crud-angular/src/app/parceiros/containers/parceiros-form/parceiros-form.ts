@@ -5,14 +5,14 @@ import { FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angul
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, min } from 'rxjs';
-import { AppMaterialModule } from '../../../shared/app-material/app-material-module';
+
 import { Parceiro } from '../../models/parceiro';
 import { ParceirosService } from '../../services/parceiros';
 import { Contato } from '../../models/contato';
 
 @Component({
   selector: 'app-parceiros-form',
-  imports: [AppMaterialModule],
+  imports: [],
   templateUrl: './parceiros-form.html',
   styleUrl: './parceiros-form.scss',
 })
@@ -26,8 +26,8 @@ export class ParceirosForm implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private route: ActivatedRoute,
-    public formUtils: FormUtilsService
-    ) {
+    public formUtils: FormUtilsService,
+  ) {
     this.form = this.formBuilder.group({
       id: [''],
       position: [1],
@@ -125,11 +125,11 @@ export class ParceirosForm implements OnInit {
       }
 
       if (parceiroParaSalvar.symbol === '') {
-            parceiroParaSalvar.symbol = null;
-          }
+        parceiroParaSalvar.symbol = null;
+      }
 
-          parceiroParaSalvar.position = Number(parceiroParaSalvar.position);
-          parceiroParaSalvar.weight = Number(parceiroParaSalvar.weight);
+      parceiroParaSalvar.position = Number(parceiroParaSalvar.position);
+      parceiroParaSalvar.weight = Number(parceiroParaSalvar.weight);
 
       try {
         await firstValueFrom(this.service.save(parceiroParaSalvar));

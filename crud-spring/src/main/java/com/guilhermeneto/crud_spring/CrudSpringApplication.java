@@ -1,17 +1,12 @@
 package com.guilhermeneto.crud_spring;
 
-import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
-import com.guilhermeneto.crud_spring.models.Parceiros;
 import com.guilhermeneto.crud_spring.repository.ParceirosRepository;
-import com.guilhermeneto.crud_spring.repository.datasource.ContatosDatasource;
-import com.guilhermeneto.crud_spring.repository.datasource.ParceirosDataSource;
 
 @SpringBootApplication
 public class CrudSpringApplication {
@@ -30,15 +25,16 @@ public class CrudSpringApplication {
 	@Profile("dev")
 	CommandLineRunner initDatabase(ParceirosRepository repository) {
 		return args -> {
-		repository.deleteAll();
+		/*repository.deleteAll();
 
 		List<Parceiros> lista = ParceirosDataSource.getParceiros();
 
 		ContatosDatasource.getContatos(lista);
 		
-		parceirosRepository.saveAll(lista);
-		
+		parceirosRepository.saveAll(lista);*/
+		System.out.println("\n=================================================");
 		System.out.println("Banco de dados carregado com sucesso!");
+		System.out.println("=================================================\n");
 		};
 	}
 }

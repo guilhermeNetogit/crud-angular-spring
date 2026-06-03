@@ -30,12 +30,12 @@ public class ParceiroMapper {
             .toList();
 
         return new ParceiroResponseDto(
-             parceiro.getId(),
-             parceiro.getName(),
-             parceiro.getPosition(),
-             parceiro.getSymbol(),
-             parceiro.getWeight(),
-             contatosDto
+            parceiro.getId(),
+            parceiro.getName(),
+            parceiro.getPosition(),
+            parceiro.getSymbol(),
+            parceiro.getWeight(),
+            contatosDto
         );
     }
 
@@ -56,6 +56,7 @@ public class ParceiroMapper {
 
         List<Contatos> contatos = dto.contatos().stream().map(contatosDto -> {
             var contato = new Contatos();
+            contato.setCodcontato(contatosDto.codcontato());
             contato.setNomecontato(contatosDto.nomecontato());
             contato.setTelefone(contatosDto.telefone());
             contato.setEmail(contatosDto.email());

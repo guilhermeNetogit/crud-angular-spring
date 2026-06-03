@@ -1,5 +1,6 @@
 package com.guilhermeneto.crud_spring.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import com.guilhermeneto.crud_spring.dtos.ParceiroRequestDto;
 import com.guilhermeneto.crud_spring.dtos.ParceiroResponseDto;
 import com.guilhermeneto.crud_spring.dtos.mapper.ParceiroMapper;
 import com.guilhermeneto.crud_spring.exceptions.RecordNotFound;
+import com.guilhermeneto.crud_spring.models.Contatos;
 import com.guilhermeneto.crud_spring.models.Parceiros;
 import com.guilhermeneto.crud_spring.repository.ParceirosRepository;
 
@@ -40,10 +42,10 @@ public class ParceirosService {
         Pageable pageable = PageRequest.of(page, size);
 
         if (name != null && !name.trim().isEmpty()) {
-                pageParceiro = parceiroRepository.findByNameContainingIgnoreCase(name, pageable);
-            } else {
-                pageParceiro = parceiroRepository.findAll(pageable);
-            }
+            pageParceiro = parceiroRepository.findByNameContainingIgnoreCase(name, pageable);
+        } else {
+            pageParceiro = parceiroRepository.findAll(pageable);
+        }
 
         List<ParceiroResponseDto> parceiros = pageParceiro.getContent().stream()
                 .map(parceiroMapper::toDto)
@@ -88,14 +90,44 @@ public class ParceirosService {
                     recordFound.setWeight(parceiroDto.weight());
                     // recordFound.setContatos(parceiros.getContatos());
 
-                    Parceiros tempEntity = parceiroMapper.toEntity(parceiroDto);
-                    recordFound.getContatos().clear(); // Limpa a lista existente monitorada pelo JPA
-                    if (tempEntity.getContatos() != null) {
-                        tempEntity.getContatos().forEach(contato -> {
-                            contato.setParceiros(recordFound);
-                            recordFound.getContatos().add(contato);
-                        });
-                    }
+                    List<Contatos> novosContatos = parceiroDto.contatos() != null
+                            ? parceiroDto.contatos().stream().map(dto -> {
+                                var c = new Contatos();
+                                c.setCodcontato(dto.codcontato());
+                                c.setNomecontato(dto.nomecontato());
+                                c.setTelefone(dto.telefone());
+                                c.setEmail(dto.email());
+                                c.setSiteurl(dto.siteurl());
+                                return c;
+                            }).collect(Collectors.toList())
+                            : new ArrayList<>();
+
+                    recordFound.getContatos().removeIf(existente -> novosContatos.stream()
+                            .noneMatch(novo -> novo.getCodcontato() != null
+                                    && novo.getCodcontato().equals(existente.getCodcontato())));
+
+                    novosContatos.forEach(novo -> {
+                        if (novo.getCodcontato() != null && novo.getCodcontato() > 0) {
+                            recordFound.getContatos().stream()
+                                    .filter(c -> c.getCodcontato().equals(novo.getCodcontato()))
+                                    .findFirst()
+                                    .ifPresentOrElse(existente -> {
+                                        existente.setNomecontato(novo.getNomecontato());
+                                        existente.setEmail(novo.getEmail());
+                                        existente.setTelefone(novo.getTelefone());
+                                        existente.setSiteurl(novo.getSiteurl());
+                                    },
+                                            () -> {
+                                                novo.setCodcontato(null);
+                                                novo.setParceiros(recordFound);
+                                                recordFound.getContatos().add(novo);
+                                            });
+                        } else {
+                            novo.setCodcontato(null);
+                            novo.setParceiros(recordFound);
+                            recordFound.getContatos().add(novo);
+                        }
+                    });
 
                     return parceiroRepository.save(recordFound);
                 }).map(parceiroMapper::toDto).orElseThrow(() -> new RecordNotFound(id));

@@ -22,6 +22,7 @@ public class Contatos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "codcontato", insertable = false, updatable = false)
     private Integer codcontato;
 
     @NotNull
@@ -47,9 +48,9 @@ public class Contatos {
     public Integer getCodcontato() {
         return codcontato;
     }
-    public void setCodcontato(Integer codcontato) {
-        this.codcontato = codcontato;
-    }
+    //public void setCodcontato(Integer codcontato) {
+    //    this.codcontato = codcontato;
+    //}
 
     public String getNomecontato() {
         return nomecontato;

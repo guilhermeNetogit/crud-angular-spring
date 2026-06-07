@@ -1,6 +1,5 @@
 package com.guilhermeneto.crud_spring.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,59 +82,64 @@ public class ParceirosService {
     public ParceiroResponseDto update(Integer id, @Valid @NotNull ParceiroRequestDto parceiroDto) {
         return parceiroRepository.findById(id)
                 .map(recordFound -> {
-                    // Parceiros parceiros = parceiroMapper.toEntity(parceiroDto);
+                    // Atualiza dados do parceiro
                     recordFound.setName(parceiroDto.name());
                     recordFound.setPosition(parceiroDto.position());
                     recordFound.setSymbol(parceiroDto.symbol());
                     recordFound.setWeight(parceiroDto.weight());
-                    // recordFound.setContatos(parceiros.getContatos());
 
-                    List<Contatos> novosContatos = parceiroDto.contatos() != null
-                            ? parceiroDto.contatos().stream().map(dto -> {
-                                var c = new Contatos();
-                                c.setCodcontato(dto.codcontato());
-                                c.setNomecontato(dto.nomecontato());
-                                c.setTelefone(dto.telefone());
-                                c.setEmail(dto.email());
-                                c.setSiteurl(dto.siteurl());
-                                return c;
-                            }).collect(Collectors.toList())
-                            : new ArrayList<>();
+                    if (parceiroDto.contatos() == null || parceiroDto.contatos().isEmpty()) {
+                        return parceiroRepository.save(recordFound);
+                    }
 
-                    recordFound.getContatos().removeIf(existente -> novosContatos.stream()
-                            .noneMatch(novo -> novo.getCodcontato() != null
-                                    && novo.getCodcontato().equals(existente.getCodcontato())));
-
-                    novosContatos.forEach(novo -> {
-                        if (novo.getCodcontato() != null && novo.getCodcontato() > 0) {
+                    parceiroDto.contatos().forEach(dto -> {
+                        if (dto.codcontato() != null && dto.codcontato() > 0) {
                             recordFound.getContatos().stream()
-                                    .filter(c -> c.getCodcontato().equals(novo.getCodcontato()))
+                                    .filter(c -> c.getCodcontato().equals(dto.codcontato()))
                                     .findFirst()
-                                    .ifPresentOrElse(existente -> {
-                                        existente.setNomecontato(novo.getNomecontato());
-                                        existente.setEmail(novo.getEmail());
-                                        existente.setTelefone(novo.getTelefone());
-                                        existente.setSiteurl(novo.getSiteurl());
-                                    },
-                                            () -> {
-                                                novo.setCodcontato(null);
-                                                novo.setParceiros(recordFound);
-                                                recordFound.getContatos().add(novo);
-                                            });
+                                    .ifPresent(existente -> {
+                                        existente.setNomecontato(dto.nomecontato());
+                                        existente.setEmail(dto.email());
+                                        existente.setTelefone(dto.telefone());
+                                        existente.setSiteurl(dto.siteurl());
+                                    });
+                                    
                         } else {
-                            novo.setCodcontato(null);
+                            Contatos novo = new Contatos();
+
+                            novo.setNomecontato(dto.nomecontato());
+                            novo.setTelefone(dto.telefone());
+                            novo.setEmail(dto.email());
+                            novo.setSiteurl(dto.siteurl());
                             novo.setParceiros(recordFound);
                             recordFound.getContatos().add(novo);
                         }
                     });
 
                     return parceiroRepository.save(recordFound);
-                }).map(parceiroMapper::toDto).orElseThrow(() -> new RecordNotFound(id));
+                })
+                .map(parceiroMapper::toDto)
+                .orElseThrow(() -> new RecordNotFound(id));               
     }
 
     public void delete(@Valid Integer id) {
         parceiroRepository.delete(parceiroRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFound(id)));
+    }
+
+    public void deleteContato(Integer parceiroId, Integer contatoId) {
+        Parceiros parceiro = parceiroRepository.findById(parceiroId)
+            .orElseThrow(() -> new RecordNotFound(parceiroId));
+    
+        Contatos contato = parceiro.getContatos().stream()
+            .filter(c -> c.getCodcontato().equals(contatoId))
+            .findFirst()
+            .orElseThrow(() -> new RecordNotFound(contatoId));
+    
+        parceiro.getContatos().remove(contato);
+        contato.setParceiros(null);  // desvincula antes de deletar
+        
+        parceiroRepository.save(parceiro);
     }
 
 }

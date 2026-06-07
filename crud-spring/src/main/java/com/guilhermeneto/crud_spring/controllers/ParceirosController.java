@@ -50,12 +50,12 @@ public class ParceirosController {
 
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ParceiroResponseDto save(@RequestBody @Valid ParceiroRequestDto parceiro) {
+    public ParceiroResponseDto create(@RequestBody @Valid ParceiroRequestDto parceiro) {
         return parceiroService.save(parceiro);
     }
 
     @PutMapping("/{id}")
-    public ParceiroResponseDto update(@PathVariable Integer id, @RequestBody ParceiroRequestDto parceiro) {
+    public ParceiroResponseDto update(@PathVariable Integer id, @RequestBody @Valid ParceiroRequestDto parceiro) {
         return parceiroService.update(id, parceiro);
     }
     
@@ -63,5 +63,11 @@ public class ParceirosController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable @Valid Integer id) {
         parceiroService.delete(id);
+    }
+
+    @DeleteMapping("/{id}/contatos/{contatoId}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteContato(@PathVariable Integer id, @PathVariable Integer contatoId) {
+        parceiroService.deleteContato(id, contatoId);
     }
 }

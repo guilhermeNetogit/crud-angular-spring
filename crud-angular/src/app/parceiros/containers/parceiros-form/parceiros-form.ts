@@ -78,7 +78,33 @@ export class ParceirosForm implements OnInit {
   }
 
   removeContato(index: number) {
-    this.getContatosFormArray().removeAt(index);
+    const contatoArray = this.getContatosFormArray();
+    const contato = contatoArray.at(index).value;
+
+  // Se tem codcontato (existente no banco), chama API de delete
+  if (contato.codcontato && contato.codcontato > 0) {
+    const parceiroId = this.form.get('id')?.value;
+
+    if (!parceiroId) {
+          // Segurança: não deveria acontecer, mas protege
+          contatoArray.removeAt(index);
+          return;
+        }
+
+    this.service.deleteContato(parceiroId, contato.codcontato).subscribe({
+      next: () => {
+        contatoArray.removeAt(index);
+        this.snackBar.open('Contato removido', 'Ok', { duration: 3000 });
+      },
+      error: () => {
+        this.snackBar.open('Erro ao remover contato', 'Ok', { duration: 3000 });
+      }
+    });
+  } else {
+    // Contato novo (sem ID) — remove apenas do formulário
+    contatoArray.removeAt(index);
+  }
+
   }
 
   private obterContato(parceiro: Parceiro) {
@@ -92,10 +118,10 @@ export class ParceirosForm implements OnInit {
   }
 
   private createContato(
-    contato: Contato = { codcontato: 0, nomecontato: '', telefone: '', email: '', siteurl: '' },
+    contato: Contato = { nomecontato: '', telefone: '', email: '', siteurl: '' },
   ) {
     return this.formBuilder.group({
-      codcontato: [contato.codcontato],
+      codcontato: [contato.codcontato || null],
       nomecontato: [contato.nomecontato, [Validators.required]],
       telefone: [contato.telefone],
       email: [contato.email, Validators.email],
@@ -141,6 +167,14 @@ export class ParceirosForm implements OnInit {
 
       parceiroParaSalvar.position = Number(parceiroParaSalvar.position);
       parceiroParaSalvar.weight = Number(parceiroParaSalvar.weight);
+
+      // Limpa codcontato null/0 para não enviar para API
+      if (parceiroParaSalvar.contatos) {
+            parceiroParaSalvar.contatos = parceiroParaSalvar.contatos.map((c: any) => ({
+              ...c,
+              codcontato: c.codcontato && c.codcontato > 0 ? c.codcontato : null
+            }));
+      }
 
       try {
         await firstValueFrom(this.service.save(parceiroParaSalvar));

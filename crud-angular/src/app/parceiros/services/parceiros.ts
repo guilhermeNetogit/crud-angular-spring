@@ -1,3 +1,4 @@
+import { Contato } from './../models/contato';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
@@ -53,5 +54,9 @@ export class ParceirosService {
 
   delete(id: number) {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+  }
+
+  deleteContato (id: number, contatoId: number) {
+    return this.httpClient.delete(`${this.API}/${id}/contatos/${contatoId}`).pipe(first());
   }
 }

@@ -56,7 +56,7 @@ public class ParceiroMapper {
 
         List<Contatos> contatos = dto.contatos().stream().map(contatosDto -> {
             var contato = new Contatos();
-            contato.setCodcontato(contatosDto.codcontato());
+            //contato.setCodcontato(contatosDto.codcontato());
             contato.setNomecontato(contatosDto.nomecontato());
             contato.setTelefone(contatosDto.telefone());
             contato.setEmail(contatosDto.email());

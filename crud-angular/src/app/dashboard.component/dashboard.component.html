@@ -1,0 +1,23 @@
+<div class="dashboard-container">
+  <h2>Selecione o Módulo</h2>
+
+  <div class="grid-menu">
+    <!-- Card de Parceiros -->
+    <mat-card class="menu-card" (click)="navegarPara('parceiros')">
+      <mat-card-content>
+        <mat-icon>people</mat-icon>
+        <h3>Parceiros</h3>
+        <p>Gerencie os contatos e clientes</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card de Produtos -->
+    <mat-card class="menu-card" (click)="navegarPara('produtos')">
+      <mat-card-content>
+        <mat-icon>shopping_bag</mat-icon>
+        <h3>Produtos</h3>
+        <p>Gerencie o catálogo de itens</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

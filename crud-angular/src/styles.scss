@@ -45,3 +45,9 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+
+  .mat-mdc-tooltip .mdc-tooltip__surface {
+    background-color: rgba(139, 138, 138, 0.75) !important; /* Cor cinza mais clara (ajuste o hexadecimal como preferir) */
+    color: #ffffff !important;            /* Mantém o texto em branco para dar contraste */
+    border-radius: 4px;                   /* Opcional: arredondamento das bordas */
+  }

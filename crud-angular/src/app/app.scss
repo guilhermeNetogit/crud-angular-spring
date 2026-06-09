@@ -86,6 +86,26 @@
     margin-top: 1.5rem;
   }
 
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px; /* Espaçamento entre a imagem e o texto */
+    cursor: pointer;
+    user-select: none;
+
+
+    &:hover {
+      opacity: 0.9; /* Dá um leve efeito visual ao passar o mouse */
+    }
+  }
+
+  .logo-toolbar {
+    height: 40px;      /* Ajuste conforme a altura da sua barra */
+    width: auto;       /* Mantém a proporção */
+    margin-right: 15px; /* Dá um espaço entre a logo e o texto */
+    vertical-align: middle; /* Alinha verticalmente com o texto */
+  }
+
   .divider {
     width: 1px;
     background: var(--red-to-pink-to-purple-vertical-gradient);
@@ -173,11 +193,4 @@
       background: var(--red-to-pink-to-purple-horizontal-gradient);
       margin-block: 1.5rem;
     }
-  }
-
-  .logo-toolbar {
-    height: 40px;      /* Ajuste conforme a altura da sua barra */
-    width: auto;       /* Mantém a proporção */
-    margin-right: 15px; /* Dá um espaço entre a logo e o texto */
-    vertical-align: middle; /* Alinha verticalmente com o texto */
   }

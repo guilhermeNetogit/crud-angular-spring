@@ -5,19 +5,17 @@ import { MatIcon } from "@angular/material/icon";
 import { MatPaginator } from "@angular/material/paginator";
 
 export interface Produto {
-  CODPROD: number;
-  DESCPROD: string;
-  COMPLDESC: string;
-  CODVOL: string;
-  EANGTIN: string;
-  REFERENCIA: string;
-  DTCREATED: string;
-  DTALTER: string;
+  codprod: number;
+  descrprod: string;
+  compldesc?: string;
+  codvol: string;
+  eangtin?: string;
+  referencia?: string;
 }
 
 export interface ProdutoPage {
   produtos: Produto[];
-  totalElements: number;
+  totalProdutos: number;
   totalPages: number;
 }
 /*

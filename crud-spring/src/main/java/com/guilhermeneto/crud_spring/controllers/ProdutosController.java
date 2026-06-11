@@ -1,35 +1,40 @@
 package com.guilhermeneto.crud_spring.controllers;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.guilhermeneto.crud_spring.models.Produtos;
-import com.guilhermeneto.crud_spring.repository.ProdutosRepository;
+import com.guilhermeneto.crud_spring.dtos.ProdutoPageDto;
+import com.guilhermeneto.crud_spring.services.ProdutosService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @RestController
 @RequestMapping("/api/produtos")
 @Tag(name = "Produtos", description = "Gerenciamento de produtos do sistema")
 public class ProdutosController {
     
-    private final ProdutosRepository produtoRepository;
+    private final ProdutosService produtoService;
     
         // Injeção de dependência via construtor
-        public ProdutosController(ProdutosRepository produtoRepository) {
-            this.produtoRepository = produtoRepository;
+        public ProdutosController(ProdutosService produtoService) {
+            this.produtoService = (ProdutosService) produtoService;
         }
     @GetMapping
-        public Page<Produtos> list(
-                @RequestParam(defaultValue = "0") int page,
-                @RequestParam(defaultValue = "10") int size,
-                @RequestParam(defaultValue = "") String nome) {
-            
-            // Faz a busca paginada filtrando por nome (ignora maiúsculas/minúsculas)
-            return produtoRepository.findByDescrprodContainingIgnoreCase(nome, PageRequest.of(page, size));
+        public ProdutoPageDto getProdutos(
+                @RequestParam(value = "page", defaultValue = "0") 
+                @PositiveOrZero int page,
+                @RequestParam(value = "size", defaultValue = "10") 
+                @Positive @Max(100) int size,
+                @RequestParam(value = "name", defaultValue = "") 
+                String name) {
+
+            {
+        return produtoService.getProdutos(page, size, name);
+    }
         }
 }

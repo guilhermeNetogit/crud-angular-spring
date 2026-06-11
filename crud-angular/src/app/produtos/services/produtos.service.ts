@@ -13,9 +13,9 @@ export class ProdutosService {
 
   constructor(private httpClient: HttpClient) { }
 
-  list(page = 0, pageSize = 10, nome = '') {
+  list(page = 0, pageSize = 10, name = '') {
     return this.httpClient.get<ProdutoPage>(this.API, {
-      params: { page: page.toString(), size: pageSize.toString(), nome }
+      params: { page: page.toString(), size: pageSize.toString(), name }
     }).pipe(
       first(),
       tap(data => console.log(data))

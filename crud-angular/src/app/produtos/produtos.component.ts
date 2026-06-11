@@ -10,13 +10,15 @@ import { catchError } from 'rxjs/operators';
 
 import { ProdutoPage } from './models/produto';
 import { ProdutosService } from './services/produtos.service';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-produtos',
   standalone: true,
   imports: [
     CommonModule, AsyncPipe, MatCardModule, MatIconModule,
-    MatProgressSpinnerModule, MatPaginatorModule, MatButtonModule
+    MatProgressSpinnerModule, MatPaginatorModule, MatButtonModule,
+    MatTableModule
   ],
   templateUrl: './produtos.component.html',
   styleUrls: ['./produtos.component.scss']
@@ -24,6 +26,7 @@ import { ProdutosService } from './services/produtos.service';
 export class ProdutosComponent {
 
   produtos$: Observable<ProdutoPage> | null = null;
+  displayedColumns = ['codprod', 'descrprod', 'codvol', 'referencia'];
   loadingError = signal(false);
 
   pageIndex = 0;
@@ -40,7 +43,7 @@ export class ProdutosComponent {
       .pipe(
         catchError(error => {
           this.loadingError.set(true);
-          return of({ produtos: [], totalElements: 0, totalPages: 0 });
+          return of({ produtos: [], totalProdutos: 0, totalPages: 0 });
         })
       );
   }

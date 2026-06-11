@@ -3,9 +3,9 @@
   @if (produtos$ | async; as lista) {
 
     @if (loadingError()) {
-      <!-- ESTADO 1: Erro de conexão -->
-      <div class="error-state" style="text-align: center; padding: 2rem;">
-        <mat-icon color="warn" style="font-size: 48px; width: 48px; height: 48px;">cloud_off</mat-icon>
+      <!-- ESTADO 1: Erro de conexão ou banco fora do ar -->
+      <div class="error-state">
+        <mat-icon color="warn">cloud_off</mat-icon>
         <p>O servidor parece estar offline no momento. Tente novamente mais tarde.</p>
         <button mat-raised-button color="primary" (click)="refresh()">
           Tentar Novamente
@@ -58,7 +58,7 @@
         <!-- ESTADO 3: Busca retornou vazia -->
         <div class="empty-state" style="text-align: center; padding: 1.5rem;">
           <mat-icon color="primary" style="font-size: 36px; width: 36px; height: 36px;">search_off</mat-icon>
-          <p>Nenhum produto encontrado na tabela TGFPRO.</p>
+          <p>Nenhum produto encontrado para o filtro aplicado.</p>
           <button mat-stroked-button color="warn" (click)="clearFilter()">
             Limpar Filtro
           </button>

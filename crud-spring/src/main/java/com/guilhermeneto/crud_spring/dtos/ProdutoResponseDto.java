@@ -1,11 +1,9 @@
 package com.guilhermeneto.crud_spring.dtos;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record ProdutoResponseDto(
-    
     
     Integer codprod,
 

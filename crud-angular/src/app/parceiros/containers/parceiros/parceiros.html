@@ -3,7 +3,7 @@
   @if (parceiros$ | async; as lista) {
 
   @if (loadingError()) {
-  <!-- ESTADO 1: Erro real de conexão ou banco fora do ar -->
+  <!-- ESTADO 1: Erro de conexão ou banco fora do ar -->
   <div class="error-state">
     <mat-icon color="warn">cloud_off</mat-icon>
     <p>O servidor parece estar offline no momento. Tente novamente mais tarde.</p>

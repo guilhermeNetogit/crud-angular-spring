@@ -1,0 +1,93 @@
+<mat-toolbar color="primary">Produtos</mat-toolbar>
+
+<mat-form-field>
+
+  <mat-label>Filter</mat-label>
+  <input
+    matInput
+    (keyup)="applyFilter($event)"
+    placeholder="Ex. nome produto"
+    [value]="filterValue"
+    #input>
+</mat-form-field>
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!-- Coluna Código -->
+  <ng-container matColumnDef="codprod">
+    <mat-header-cell *matHeaderCellDef> Cód. </mat-header-cell>
+    <mat-cell *matCellDef="let prod"> {{ prod.codprod }} </mat-cell>
+  </ng-container>
+
+  <!-- Coluna Descrição -->
+  <ng-container matColumnDef="descrprod">
+    <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
+    <mat-cell *matCellDef="let prod"> {{ prod.descrprod }} </mat-cell>
+  </ng-container>
+
+  <!-- Coluna Complemento -->
+  <ng-container matColumnDef="compldesc">
+    <mat-header-cell *matHeaderCellDef> Complemento </mat-header-cell>
+    <mat-cell *matCellDef="let prod"> {{ prod.compldesc }} </mat-cell>
+  </ng-container>
+
+  <!-- Coluna Volume/Unidade -->
+  <ng-container matColumnDef="codvol">
+    <mat-header-cell *matHeaderCellDef> Vol. </mat-header-cell>
+    <mat-cell *matCellDef="let prod"> {{ prod.codvol }} </mat-cell>
+  </ng-container>
+
+  <!-- Coluna Referência -->
+  <ng-container matColumnDef="referencia">
+    <mat-header-cell *matHeaderCellDef> Referência </mat-header-cell>
+    <mat-cell *matCellDef="let prod"> {{ prod.referencia || '-' }} </mat-cell>
+  </ng-container>
+
+  <!-- Coluna EANGTIN -->
+  <ng-container matColumnDef="eangtin">
+    <mat-header-cell *matHeaderCellDef> Cód. Barras </mat-header-cell>
+    <mat-cell *matCellDef="let prod"> {{ prod.eangtin || '-' }} </mat-cell>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <!-- CABEÇALHO: Ações Globais -->
+    <mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button [matMenuTriggerFor]="menuGlobal" class="btn-actions-menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menuGlobal="matMenu">
+        <button mat-menu-item (click)="onAdd()">
+          <mat-icon color="primary">add</mat-icon>
+          <span>Inserir Novo</span>
+        </button>
+      </mat-menu>
+    </mat-header-cell>
+
+    <!-- LINHAS: Ações Individuais -->
+    <mat-cell *matCellDef="let element">
+      <button mat-icon-button [matMenuTriggerFor]="menuIndividual" class="btn-actions-menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menuIndividual="matMenu">
+        <button mat-menu-item (click)="onEdit(element.id)">
+          <mat-icon color="accent">edit</mat-icon>
+          <span>Editar Item</span>
+        </button>
+        <button mat-menu-item (click)="onDelete(element.id)">
+          <mat-icon color="warn">delete</mat-icon>
+          <span>Deletar Item</span>
+        </button>
+      </mat-menu>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  <!-- Row shown when there is no matching data. -->
+  <mat-row class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="5">No data matching the filter "{{filterValue}}"</td>
+  </mat-row>
+</mat-table>

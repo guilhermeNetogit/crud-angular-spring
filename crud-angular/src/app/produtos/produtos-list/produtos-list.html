@@ -1,58 +1,56 @@
 <mat-toolbar color="primary">Produtos</mat-toolbar>
 
 <mat-form-field>
-
   <mat-label>Filter</mat-label>
   <input
     matInput
     (keyup)="applyFilter($event)"
-    placeholder="Ex. nome produto"
+    placeholder="Ex. ium"
     [value]="filterValue"
     #input>
 </mat-form-field>
 
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
   <!-- Coluna Código -->
   <ng-container matColumnDef="codprod">
-    <mat-header-cell *matHeaderCellDef> Cód. </mat-header-cell>
-    <mat-cell *matCellDef="let prod"> {{ prod.codprod }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cód. </th>
+    <td mat-cell *matCellDef="let prod"> {{ prod.codprod }} </td>
   </ng-container>
 
   <!-- Coluna Descrição -->
   <ng-container matColumnDef="descrprod">
-    <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
-    <mat-cell *matCellDef="let prod"> {{ prod.descrprod }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descrição </th>
+    <td mat-cell *matCellDef="let prod"> {{ prod.descrprod }} </td>
   </ng-container>
 
   <!-- Coluna Complemento -->
   <ng-container matColumnDef="compldesc">
-    <mat-header-cell *matHeaderCellDef> Complemento </mat-header-cell>
-    <mat-cell *matCellDef="let prod"> {{ prod.compldesc }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Complemento </th>
+    <td mat-cell *matCellDef="let prod"> {{ prod.compldesc }} </td>
   </ng-container>
 
-  <!-- Coluna Volume/Unidade -->
+  <!-- Coluna Volume -->
   <ng-container matColumnDef="codvol">
-    <mat-header-cell *matHeaderCellDef> Vol. </mat-header-cell>
-    <mat-cell *matCellDef="let prod"> {{ prod.codvol }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Vol. </th>
+    <td mat-cell *matCellDef="let prod"> {{ prod.codvol }} </td>
   </ng-container>
 
   <!-- Coluna Referência -->
   <ng-container matColumnDef="referencia">
-    <mat-header-cell *matHeaderCellDef> Referência </mat-header-cell>
-    <mat-cell *matCellDef="let prod"> {{ prod.referencia || '-' }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Referência </th>
+    <td mat-cell *matCellDef="let prod"> {{ prod.referencia || '-' }} </td>
   </ng-container>
 
-  <!-- Coluna EANGTIN -->
+  <!-- Coluna Cód. Barras -->
   <ng-container matColumnDef="eangtin">
-    <mat-header-cell *matHeaderCellDef> Cód. Barras </mat-header-cell>
-    <mat-cell *matCellDef="let prod"> {{ prod.eangtin || '-' }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cód. Barras </th>
+    <td mat-cell *matCellDef="let prod"> {{ prod.eangtin || '-' }} </td>
   </ng-container>
 
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
-    <!-- CABEÇALHO: Ações Globais -->
-    <mat-header-cell *matHeaderCellDef>
+    <th mat-header-cell *matHeaderCellDef>
       <button mat-icon-button [matMenuTriggerFor]="menuGlobal" class="btn-actions-menu">
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -63,31 +61,31 @@
           <span>Inserir Novo</span>
         </button>
       </mat-menu>
-    </mat-header-cell>
+    </th>
 
-    <!-- LINHAS: Ações Individuais -->
-    <mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let prod">
       <button mat-icon-button [matMenuTriggerFor]="menuIndividual" class="btn-actions-menu">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menuIndividual="matMenu">
-        <button mat-menu-item (click)="onEdit(element.id)">
+        <button mat-menu-item (click)="onEdit(prod.codprod)">
           <mat-icon color="accent">edit</mat-icon>
           <span>Editar Item</span>
         </button>
-        <button mat-menu-item (click)="onDelete(element.id)">
+        <button mat-menu-item (click)="onDelete(prod.codprod)">
           <mat-icon color="warn">delete</mat-icon>
           <span>Deletar Item</span>
         </button>
       </mat-menu>
-    </mat-cell>
+    </td>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-  <!-- Row shown when there is no matching data. -->
-  <mat-row class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="5">No data matching the filter "{{filterValue}}"</td>
-  </mat-row>
-</mat-table>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center; padding: 1.5rem;">
+      No data matching the filter "{{filterValue}}"
+    </td>
+  </tr>
+</table>

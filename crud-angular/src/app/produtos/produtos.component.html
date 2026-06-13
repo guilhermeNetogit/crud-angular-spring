@@ -1,52 +1,42 @@
-<mat-card>
-
-  @if (produtos$ | async; as listaProd) {
-
+<div class="tabela-container-produtos">
+  @if (produtos$ | async; as dadosPagina) {
     @if (loadingError()) {
-      <!-- ESTADO 1: Erro de conexão ou banco fora do ar -->
-      <div class="error-state">
+      <div class="error-state" style="text-align: center; padding: 2rem;">
         <mat-icon color="warn">cloud_off</mat-icon>
-        <p>O servidor parece estar offline no momento. Tente novamente mais tarde.</p>
-        <button mat-raised-button color="primary" (click)="refresh()">
-          Tentar Novamente
-        </button>
+        <p>O servidor parece estar offline. Tente novamente mais tarde.</p>
+        <button mat-raised-button color="primary" (click)="refresh()">Tentar Novamente</button>
       </div>
     } @else {
+      <!-- 💡 ESSA DIV INTERNA É O SEGREDO: Ela vai abraçar o filho e o paginador -->
+      <div class="tabela-wrapper">
+        <app-produtos-list
+          [dataSource]="dataSource"
+          [filterValue]="filterValue"
+          (add)="onAdd()"
+          (edit)="onEdit($event)"
+          (delete)="onDelete($event)"
+          (filter)="applyFilter($event)"
+          (clear)="clearFilter()">
+        </app-produtos-list>
 
-      <!-- ESTADO 2: Tem dados, mostra a lista de produtos -->
-      <app-produtos-list
-        [dataSource]="dataSource"
-        [filterValue]="filterValue"
-        (add)="onAdd()"
-        (edit)="onEdit($event)"
-        (delete)="onDelete($event)"
-        (filter)="applyFilter($event)"
-        (clear)="clearFilter()">
-      </app-produtos-list>
-
-      @if (listaProd.produtos && listaProd.produtos.length > 0) {
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="pageIndex" [pageSize]="pageSize"
-          [length]="listaProd.totalProdutos" (page)="onPageChange($event)" showFirstLastButtons
-          aria-label="Selecione a página de produtos">
-        </mat-paginator>
-
-      } @else {
-        <!-- ESTADO 3: Busca retornou vazia -->
-        <div class="empty-state" style="text-align: center; padding: 1.5rem;">
-          <mat-icon color="primary" style="font-size: 36px; width: 36px; height: 36px;">search_off</mat-icon>
-          <p>Nenhum produto encontrado para o filtro aplicado.</p>
-          <button mat-stroked-button color="warn" (click)="clearFilter()">
-            Limpar Filtro
-          </button>
-        </div>
-      }
+        @if (dadosPagina.produtos && dadosPagina.produtos.length > 0) {
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 50]"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [length]="dadosPagina.totalProdutos"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+            aria-label="Selecione a página de produtos">
+          </mat-paginator>
+        }
+      </div>
     }
-
   } @else {
-    <!-- ESTADO 4: Aguardando resposta do servidor (Loading) -->
-  <div class="load-spinner">
-    <mat-spinner></mat-spinner>
-  </div>
+    @if (!loadingError()) {
+      <div class="load-spinner" style="display: flex; justify-content: center; padding: 3rem;">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
   }
-
-</mat-card>
+</div>

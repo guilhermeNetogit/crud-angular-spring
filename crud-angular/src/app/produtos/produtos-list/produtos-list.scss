@@ -1,0 +1,96 @@
+@charset "UTF-8";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+mat-toolbar {
+  height: 55px;
+  font-size: 20px;
+}
+
+/* Garante que a div de elevação tenha largura e fundo */
+.mat-elevation-z8 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+mat-table {
+  overflow: auto;
+  max-height: 450px;
+  width: 100%;
+  background: transparent;
+}
+
+::ng-deep .mat-mdc-form-field label {
+  font-size: 14px !important;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-column-actions {
+  justify-content: flex-end !important;
+  display: flex;
+}
+
+.btn-actions-menu {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+
+  /* Alinhamento flex */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+
+  cursor: pointer !important;
+  border-radius: 50% !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Efeito sutil ao passar o mouse em qualquer ícone da coluna */
+.btn-actions-menu:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Adiciona espaço entre o ícone e o texto em todos os headers da tabela */
+mat-header-cell mat-icon {
+  margin-right: 8px; /* Espaço entre ícone e descrição */
+  flex-shrink: 0;
+}
+
+mat-cell.mat-column-actions {
+  padding-right: 4px !important;
+}
+
+/* Ajuste específico para alinhar o conteúdo do header */
+.mat-mdc-header-cell {
+  padding: 0 4px !important;
+  box-sizing: border-box;
+}
+
+.mat-sort-header-content {
+  white-space: nowrap; /* Mantém "Atomic Number" em uma linha se houver espaço */
+}
+
+mat-mdc-header-cell.mat-column-actions {
+  padding-right: 22px !important;
+}
+
+/* Deixa o ícone de dentro menor para não carregar o visual */
+.btn-actions-menu mat-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+
+  /* Garante que o ícone não tenha margens próprias */
+    margin: auto;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}

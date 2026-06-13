@@ -30,10 +30,9 @@ export interface PeriodicElement {
   selector: 'app-parceiros',
   standalone: true,
   imports: [AsyncPipe, CommonModule,
-  MatCardModule,
-  MatIconModule,
-  MatProgressSpinnerModule,
-  ParceirosList, MatSortModule, ParceirosList, MatPaginatorModule],
+  MatCardModule, MatIconModule,
+  MatProgressSpinnerModule, MatPaginatorModule,
+  ParceirosList, MatSortModule],
   templateUrl: './parceiros.html',
   styleUrl: './parceiros.scss',
 })
@@ -92,13 +91,9 @@ export class Parceiros {
   }
 
   clearFilter() {
-      this.filterValue = '';
-      this.pageIndex = 0;
-      this.refresh();
-    }
-
-  edit($event: number) {
-    throw new Error('Method not implemented.');
+    this.filterValue = '';
+    this.pageIndex = 0;
+    this.refresh();
   }
 
   onAdd() {

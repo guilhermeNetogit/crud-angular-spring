@@ -1,6 +1,6 @@
 <mat-card>
 
-  @if (produtos$ | async; as lista) {
+  @if (produtos$ | async; as listaProd) {
 
     @if (loadingError()) {
       <!-- ESTADO 1: Erro de conexão ou banco fora do ar -->
@@ -14,45 +14,21 @@
     } @else {
 
       <!-- ESTADO 2: Tem dados, mostra a lista de produtos -->
-      @if (lista.produtos && lista.produtos.length > 0) {
-        <div style="padding: 1.5rem;">
-          <h3>Lista de Produtos Carregada do Banco!</h3>
+      <app-produtos-list
+        [dataSource]="dataSource"
+        [filterValue]="filterValue"
+        (add)="onAdd()"
+        (edit)="onEdit($event)"
+        (delete)="onDelete($event)"
+        (filter)="applyFilter($event)"
+        (clear)="clearFilter()">
+      </app-produtos-list>
 
-        <mat-table [dataSource]="lista.produtos" class="mat-elevation-z8">
-
-          <!-- Coluna Código -->
-          <ng-container matColumnDef="codprod">
-            <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
-            <mat-cell *matCellDef="let prod"> {{ prod.codprod }} </mat-cell>
-          </ng-container>
-
-          <!-- Coluna Descrição -->
-          <ng-container matColumnDef="descrprod">
-            <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
-            <mat-cell *matCellDef="let prod"> {{ prod.descrprod }} </mat-cell>
-          </ng-container>
-
-          <!-- Coluna Volume/Unidade -->
-          <ng-container matColumnDef="codvol">
-            <mat-header-cell *matHeaderCellDef> Vol. </mat-header-cell>
-            <mat-cell *matCellDef="let prod"> {{ prod.codvol }} </mat-cell>
-          </ng-container>
-
-          <!-- Coluna Referência -->
-          <ng-container matColumnDef="referencia">
-            <mat-header-cell *matHeaderCellDef> Referência </mat-header-cell>
-            <mat-cell *matCellDef="let prod"> {{ prod.referencia || '-' }} </mat-cell>
-          </ng-container>
-
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-
+      @if (listaProd.produtos && listaProd.produtos.length > 0) {
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="pageIndex" [pageSize]="pageSize"
-          [length]="lista.totalProdutos" (page)="onPageChange($event)" showFirstLastButtons
+          [length]="listaProd.totalProdutos" (page)="onPageChange($event)" showFirstLastButtons
           aria-label="Selecione a página de produtos">
         </mat-paginator>
-        </div>
 
       } @else {
         <!-- ESTADO 3: Busca retornou vazia -->
@@ -67,10 +43,10 @@
     }
 
   } @else {
-    <!-- ESTADO 4: Loading -->
-    <div class="load-spinner" style="display: flex; justify-content: center; padding: 2rem;">
-      <mat-spinner></mat-spinner>
-    </div>
+    <!-- ESTADO 4: Aguardando resposta do servidor (Loading) -->
+  <div class="load-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
   }
 
 </mat-card>

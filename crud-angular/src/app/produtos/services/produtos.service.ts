@@ -7,13 +7,12 @@ import { ProdutoPage } from '../models/produto';
   providedIn: 'root'
 })
 export class ProdutosService {
-
   // Ajuste o caminho da URL de acordo com o seu Controller do Spring
   private readonly API = 'api/produtos';
 
   constructor(private httpClient: HttpClient) { }
 
-  list(page = 0, pageSize = 10, name = '') {
+  findAll(page = 0, pageSize = 10, name = '') {
     return this.httpClient.get<ProdutoPage>(this.API, {
       params: { page: page.toString(), size: pageSize.toString(), name }
     }).pipe(
@@ -22,5 +21,7 @@ export class ProdutosService {
     );
   }
 
-  // Deixe os métodos de salvar, editar e deletar engatilhados aqui futuramente
+  delete(id: number) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+  }
 }

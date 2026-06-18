@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -30,13 +30,19 @@ export interface ProdutosTable {
 @Component({
   selector: 'app-produtos',
   standalone: true,
-  imports: [AsyncPipe, CommonModule,
-    MatCardModule, MatIconModule,
-    MatProgressSpinnerModule, MatPaginatorModule,
-    ProdutosList, MatSortModule
+  imports: [
+    AsyncPipe,
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    ProdutosList,
+    MatSortModule,
   ],
   templateUrl: './produtos.component.html',
-  styleUrls: ['./produtos.component.scss']
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./produtos.component.scss'],
 })
 export class ProdutosComponent {
   loadingError = signal(false);
@@ -57,7 +63,7 @@ export class ProdutosComponent {
     private produtosService: ProdutosService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     console.log('Iniciando busca de produtos...');
   }
@@ -67,22 +73,22 @@ export class ProdutosComponent {
   }
 
   readonly produtos$: Observable<ProdutoPage> = this.refresh$.pipe(
-      tap(() => this.loadingError.set(false)),
-      switchMap(() =>
-        this.produtosService.findAll(this.pageIndex, this.pageSize, this.filterValue).pipe(
-          catchError((error) => {
-            console.error('ERRO NO SERVIDOR DE BANCO DE DADOS:', error);
-            this.loadingError.set(true);
-            this.openError('Não foi possível carregar os dados!');
-            this.dataSource.data = [];
-            return of({ produtos: [], totalProdutos: 0, totalPages: 0 });
-          }),
-          tap((dados) => {
-            console.log('Dados chegaram:', dados);
-            this.dataSource.data = [...(dados.produtos || [])];
-          }),
-        ),
+    tap(() => this.loadingError.set(false)),
+    switchMap(() =>
+      this.produtosService.findAll(this.pageIndex, this.pageSize, this.filterValue).pipe(
+        catchError((error) => {
+          console.error('ERRO NO SERVIDOR DE BANCO DE DADOS:', error);
+          this.loadingError.set(true);
+          this.openError('Não foi possível carregar os dados!');
+          this.dataSource.data = [];
+          return of({ produtos: [], totalProdutos: 0, totalPages: 0 });
+        }),
+        tap((dados) => {
+          console.log('Dados chegaram:', dados);
+          this.dataSource.data = [...(dados.produtos || [])];
+        }),
       ),
+    ),
   );
 
   applyFilter(texto: string) {
@@ -129,9 +135,9 @@ export class ProdutosComponent {
   }
 
   openError(errorMsg: string) {
-      this.dialog.open(ErrorDialog, {
-        data: errorMsg,
-      });
+    this.dialog.open(ErrorDialog, {
+      data: errorMsg,
+    });
   }
 
   onPageChange(pageEvent: PageEvent) {

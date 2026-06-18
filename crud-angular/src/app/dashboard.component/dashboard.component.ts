@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -8,12 +8,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [MatCardModule, MatIconModule],
   templateUrl: './dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-   constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
-    navegarPara(modulo: string) {
-      this.router.navigate([`/${modulo}`]);
-    }
+  navegarPara(modulo: string) {
+    this.router.navigate([`/${modulo}`]);
+  }
 }

@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -29,11 +29,18 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-parceiros',
   standalone: true,
-  imports: [AsyncPipe, CommonModule,
-  MatCardModule, MatIconModule,
-  MatProgressSpinnerModule, MatPaginatorModule,
-  ParceirosList, MatSortModule],
+  imports: [
+    AsyncPipe,
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    ParceirosList,
+    MatSortModule,
+  ],
   templateUrl: './parceiros.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './parceiros.scss',
 })
 export class Parceiros {

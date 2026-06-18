@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, MatToolbarModule, MatTooltipModule, RouterOutlet, RouterLink],
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.scss',
 })
 export class App {

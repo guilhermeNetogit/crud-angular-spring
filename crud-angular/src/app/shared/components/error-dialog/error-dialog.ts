@@ -1,15 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-error-dialog',
   imports: [MatDialogModule],
   templateUrl: './error-dialog.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './error-dialog.scss',
 })
-
 export class ErrorDialog {
-
   public data = inject(MAT_DIALOG_DATA);
 
   constructor() {

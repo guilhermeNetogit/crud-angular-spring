@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,11 +20,19 @@ import { PeriodicElement } from '../../containers/parceiros/parceiros';
 @Component({
   selector: 'app-parceiros-list',
   standalone: true,
-  imports: [MatToolbarModule, MatFormFieldModule,
-  MatInputModule,
-  MatMenuModule,
-  MatButtonModule,MatTableModule, MatSortModule, MatIconModule, CategoryPipe],
+  imports: [
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    CategoryPipe,
+  ],
   templateUrl: './parceiros-list.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './parceiros-list.scss',
 })
 export class ParceirosList {
@@ -27,8 +42,8 @@ export class ParceirosList {
   }
 
   clearFilter() {
-      this.clear.emit();
-    }
+    this.clear.emit();
+  }
 
   @ViewChild(MatSort) set MatSort(sort: MatSort) {
     this.dataSource.sort = sort;

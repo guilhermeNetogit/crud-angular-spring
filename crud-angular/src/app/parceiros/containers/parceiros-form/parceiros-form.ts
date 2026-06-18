@@ -1,9 +1,15 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  FormArray,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { FormUtilsService } from './../../../shared/form/form-utils';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -18,13 +24,17 @@ import { ParceirosService } from '../../services/parceiros';
 
 @Component({
   selector: 'app-parceiros-form',
-  imports: [ReactiveFormsModule,
-      MatFormFieldModule,
-      MatIconModule,
-      MatInputModule,
-      MatButtonModule,
-      MatCardModule, MatToolbarModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+  ],
   templateUrl: './parceiros-form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './parceiros-form.scss',
 })
 export class ParceirosForm implements OnInit {
@@ -81,30 +91,29 @@ export class ParceirosForm implements OnInit {
     const contatoArray = this.getContatosFormArray();
     const contato = contatoArray.at(index).value;
 
-  // Se tem codcontato (existente no banco), chama API de delete
-  if (contato.codcontato && contato.codcontato > 0) {
-    const parceiroId = this.form.get('id')?.value;
+    // Se tem codcontato (existente no banco), chama API de delete
+    if (contato.codcontato && contato.codcontato > 0) {
+      const parceiroId = this.form.get('id')?.value;
 
-    if (!parceiroId) {
-          // Segurança: não deveria acontecer, mas protege
-          contatoArray.removeAt(index);
-          return;
-        }
-
-    this.service.deleteContato(parceiroId, contato.codcontato).subscribe({
-      next: () => {
+      if (!parceiroId) {
+        // Segurança: não deveria acontecer, mas protege
         contatoArray.removeAt(index);
-        this.snackBar.open('Contato removido', 'Ok', { duration: 3000 });
-      },
-      error: () => {
-        this.snackBar.open('Erro ao remover contato', 'Ok', { duration: 3000 });
+        return;
       }
-    });
-  } else {
-    // Contato novo (sem ID) — remove apenas do formulário
-    contatoArray.removeAt(index);
-  }
 
+      this.service.deleteContato(parceiroId, contato.codcontato).subscribe({
+        next: () => {
+          contatoArray.removeAt(index);
+          this.snackBar.open('Contato removido', 'Ok', { duration: 3000 });
+        },
+        error: () => {
+          this.snackBar.open('Erro ao remover contato', 'Ok', { duration: 3000 });
+        },
+      });
+    } else {
+      // Contato novo (sem ID) — remove apenas do formulário
+      contatoArray.removeAt(index);
+    }
   }
 
   private obterContato(parceiro: Parceiro) {
@@ -170,10 +179,10 @@ export class ParceirosForm implements OnInit {
 
       // Limpa codcontato null/0 para não enviar para API
       if (parceiroParaSalvar.contatos) {
-            parceiroParaSalvar.contatos = parceiroParaSalvar.contatos.map((c: any) => ({
-              ...c,
-              codcontato: c.codcontato && c.codcontato > 0 ? c.codcontato : null
-            }));
+        parceiroParaSalvar.contatos = parceiroParaSalvar.contatos.map((c: any) => ({
+          ...c,
+          codcontato: c.codcontato && c.codcontato > 0 ? c.codcontato : null,
+        }));
       }
 
       try {

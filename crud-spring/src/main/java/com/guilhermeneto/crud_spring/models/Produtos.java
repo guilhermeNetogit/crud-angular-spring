@@ -2,6 +2,8 @@ package com.guilhermeneto.crud_spring.models;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.Column;
@@ -41,15 +43,20 @@ public class Produtos {
     @Column(name = "EANGTIN", nullable = false, length = 14)
     private String eangtin;
 
-    @Length(min = 4, max = 14)
-    @Column(name = "REFERENCIA", nullable = true, length = 14)
+    @Length(min = 4, max = 20)
+    @Column(name = "REFERENCIA", nullable = true, length = 20)
     private String referencia;
 
-    @Column(name = "DTCREATED", nullable = true)
+    @CreationTimestamp
+    @Column(name = "DTCREATED", nullable = true, updatable = false)
     private LocalDateTime dtcreated;
-    
+
+    @UpdateTimestamp
     @Column(name = "DTALTER", nullable = true)
     private LocalDateTime dtalter;
+
+    @Column(name = "ATIVO", nullable = false)
+    private boolean ativo = true;
 
     public Integer getCodprod() {
         return codprod;
@@ -115,4 +122,11 @@ public class Produtos {
         this.dtalter = dtalter;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 }

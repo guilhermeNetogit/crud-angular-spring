@@ -10,7 +10,6 @@ public record ProdutoRequestDto(
     @NotBlank(message = "O campo name não pode ficar em branco.")
     @NotBlank @NotNull String descrprod,
     String compldesc,
-    String symbol,
     String codvol,
     String eangtin,
     String referencia,

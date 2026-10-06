@@ -68,12 +68,16 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menuIndividual="matMenu">
-        <button mat-menu-item (click)="onEdit(prod.codprod)">
+        <button mat-menu-item (click)="onEdit(prod)">
           <mat-icon color="accent">edit</mat-icon>
           <span>Editar Item</span>
         </button>
-        <button mat-menu-item (click)="onDelete(prod.codprod)">
-          <mat-icon color="warn">delete</mat-icon>
+        <button mat-menu-item (click)="onSoftDelete(prod)">
+          <mat-icon color="accent">visibility_off</mat-icon>
+          <span>Inativar Item</span>
+        </button>
+        <button mat-menu-item (click)="onDelete(prod)">
+          <mat-icon color="warn">delete_forever</mat-icon>
           <span>Deletar Item</span>
         </button>
       </mat-menu>

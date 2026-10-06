@@ -64,20 +64,25 @@ export class ProdutosList {
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   @Output() add = new EventEmitter(false);
-  @Output() edit = new EventEmitter<number>();
-  @Output() delete = new EventEmitter<number>();
-  @Output() filter = new EventEmitter<string>();
-  @Output() clear = new EventEmitter<void>();
+  @Output() edit = new EventEmitter<Produto>();
+  @Output() softDelete = new EventEmitter<Produto>();
+  @Output() delete = new EventEmitter<Produto>();
+  @Output() filter = new EventEmitter();
+  @Output() clear = new EventEmitter();
 
   onAdd() {
     this.add.emit(true);
   }
 
   onEdit(produto: Produto) {
-    this.edit.emit(produto.codprod);
+    this.edit.emit(produto);
+  }
+
+  onSoftDelete(produto: Produto) {
+    this.softDelete.emit(produto);
   }
 
   onDelete(produto: Produto) {
-    this.delete.emit(produto.codprod);
+    this.delete.emit(produto);
   }
 }

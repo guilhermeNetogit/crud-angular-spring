@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -10,13 +10,13 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { ErrorDialog } from '../../../shared/components/error-dialog/error-dialog';
 import { Produto, ProdutoPage } from '../../models/produto';
-import { ProdutosService } from '../../services/produtos.service';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { ProdutosList } from '../../produtos-list/produtos-list';
+import { ProdutosService } from '../../services/produtos.service';
 
 export interface ProdutosTable {
   codprod: number;
@@ -83,7 +83,6 @@ export class ProdutosComponent {
           return of({ produtos: [], totalProdutos: 0, totalPages: 0 });
         }),
         tap((dados) => {
-
           console.log('Dados chegaram:', dados);
 
           this.dataSource.data = [...(dados.produtos ?? [])];
@@ -121,7 +120,14 @@ export class ProdutosComponent {
   onSoftDelete(produto: Produto) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: { name: `Deseja inativar o produto "${produto.codprod}"?` },
+      data: {
+        title: 'Confirmar Inativação',
+        message: 'inativar',
+        name: `o produto Cód. "${produto.codprod}"`,
+        warningText: 'O produto não será mais exibido na lista.',
+        confirmText: 'Inativar',
+        confirmColor: 'warn',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -144,7 +150,14 @@ export class ProdutosComponent {
   onDelete(produto: Produto) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: { name: `Produto Código ${produto.codprod}` },
+      data: {
+        title: 'Confirmar Exclusão',
+        message: 'excluir permanentemente',
+        name: `o produto Cód. "${produto.codprod}"`,
+        warningText: 'Esta ação não poderá ser desfeita.',
+        confirmText: 'Excluir',
+        confirmColor: 'warn',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

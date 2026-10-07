@@ -1,10 +1,13 @@
 package com.guilhermeneto.crud_spring.exceptions;
 
+import java.util.stream.Collectors;
+
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -60,12 +63,31 @@ public class GlobalExceptionHandler {
                 .reduce("", (acc, error) -> acc + error + "\n");
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleConstraintViolationException(ConstraintViolationException ex) {
-        return ex.getConstraintViolations().stream()
-                .map(error -> error.getPropertyPath() + " " + error.getMessage())
-                .reduce("", (acc, error) -> acc + error + "\n");
+    @ExceptionHandler({ ConstraintViolationException.class, TransactionSystemException.class })
+    public ResponseEntity<String> handleViolations(Exception ex) {
+        ConstraintViolationException violation = findViolation(ex);
+
+        if (violation == null) {
+            // Não é erro de validação: mantém 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno ao processar a requisição.");
+        }
+
+        String message = violation.getConstraintViolations().stream()
+                .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+                .collect(Collectors.joining("\n"));
+
+        return ResponseEntity.badRequest().body(message);
+    }
+
+    private ConstraintViolationException findViolation(Throwable t) {
+        while (t != null) {
+            if (t instanceof ConstraintViolationException cve) {
+                return cve;
+            }
+            t = t.getCause();
+        }
+        return null;
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

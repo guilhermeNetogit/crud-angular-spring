@@ -1,0 +1,80 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button type="button" (click)="onCancel()" aria-label="Voltar para a lista">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>{{ isEdit() ? 'Editar produto' : 'Novo produto' }}</span>
+</mat-toolbar>
+
+<div class="form-container">
+  @if (loading()) {
+    <div class="load-spinner">
+      <mat-spinner diameter="48"></mat-spinner>
+    </div>
+  } @else {
+    <mat-card class="form-card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <mat-card-content class="form-grid">
+          @if (isEdit()) {
+            <mat-form-field appearance="outline" class="col-codprod">
+              <mat-label>Código</mat-label>
+              <input matInput formControlName="codprod" readonly />
+            </mat-form-field>
+          }
+
+          <mat-form-field appearance="outline" class="col-full">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="descrprod" maxlength="50" required />
+            @if (form.controls.descrprod.invalid) {
+              <mat-error>{{ errorMessage('descrprod') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-full">
+            <mat-label>Complemento</mat-label>
+            <textarea matInput formControlName="compldesc" rows="3" maxlength="50"></textarea>
+            @if (form.controls.compldesc.invalid) {
+              <mat-error>{{ errorMessage('compldesc') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-small">
+            <mat-label>Volume</mat-label>
+            <input matInput formControlName="codvol" maxlength="2" required />
+            @if (form.controls.codvol.invalid) {
+              <mat-error>{{ errorMessage('codvol') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-medium">
+            <mat-label>Referência</mat-label>
+            <input matInput formControlName="referencia" maxlength="20" />
+            @if (form.controls.referencia.invalid) {
+              <mat-error>{{ errorMessage('referencia') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-medium">
+            <mat-label>Código de barras</mat-label>
+            <input matInput formControlName="eangtin" inputmode="numeric" maxlength="14" required />
+            <mat-hint>EAN/GTIN com 8 a 14 dígitos</mat-hint>
+            @if (form.controls.eangtin.invalid) {
+              <mat-error>{{ errorMessage('eangtin') }}</mat-error>
+            }
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions align="end" class="form-actions">
+          <button mat-button type="button" (click)="onCancel()" [disabled]="saving()">
+            Cancelar
+          </button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+            @if (saving()) {
+              <mat-spinner diameter="18" class="btn-spinner"></mat-spinner>
+            }
+            Salvar produto
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  }
+</div>

@@ -17,6 +17,7 @@ import com.guilhermeneto.crud_spring.exceptions.RecordNotFound;
 import com.guilhermeneto.crud_spring.models.Produtos;
 import com.guilhermeneto.crud_spring.repository.ProdutosRepository;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -40,9 +41,9 @@ public class ProdutosService {
         Pageable pageable = PageRequest.of(page, size);
 
         if (name != null && !name.trim().isEmpty() && !name.equalsIgnoreCase("\"\"")) {
-            pageProduto = produtoRepository.findByDescrprodContainingIgnoreCase(name, pageable);
+            pageProduto = produtoRepository.findByAtivoTrueAndDescrprodContainingIgnoreCase(name, pageable);
         } else {
-            pageProduto = produtoRepository.findAll(pageable);
+            pageProduto = produtoRepository.findByAtivoTrue(pageable);
         }
 
         List<ProdutoResponseDto> produtos = pageProduto.getContent().stream()
@@ -64,6 +65,7 @@ public class ProdutosService {
         return produtoMapper.toDto(produtoRepository.save(entity));
     }
 
+    @Transactional 
     public ProdutoResponseDto update(Integer codprod, @Valid @NotNull ProdutoRequestDto produtoDto) {
         return produtoRepository.findById(codprod)
                 .map(recordFound -> {
@@ -72,14 +74,21 @@ public class ProdutosService {
                     recordFound.setCompldesc(produtoDto.compldesc());
                     recordFound.setCodvol(produtoDto.codvol());
                     recordFound.setEangtin(produtoDto.eangtin());
-                    recordFound.setReferencia(produtoDto.eangtin());
-                    recordFound.setDtcreated(produtoDto.dtcreated());
-                    recordFound.setDtalter(produtoDto.dtalter());
+                    recordFound.setReferencia(produtoDto.referencia());
 
                     return produtoRepository.save(recordFound);
                 })
                 .map(produtoMapper::toDto)
                 .orElseThrow(() -> new RecordNotFound(codprod));               
+    }
+
+    // SOFT DELETE: Inativa o registro mantendo-o na base
+    public void softDelete(@NotNull @Positive Integer codprod) {
+        Produtos produto = produtoRepository.findById(codprod)
+                .orElseThrow(() -> new RecordNotFound(codprod));
+        
+        produto.setAtivo(false); // Requer o atributo/setter 'ativo' na entidade Produtos
+        produtoRepository.save(produto);
     }
 
     public void delete(@Valid Integer codprod) {

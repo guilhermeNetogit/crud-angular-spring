@@ -12,11 +12,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ErrorDialog } from '../shared/components/error-dialog/error-dialog';
-import { Produto, ProdutoPage } from './models/produto';
-import { ProdutosService } from './services/produtos.service';
-import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog';
-import { ProdutosList } from './produtos-list/produtos-list';
+import { ErrorDialog } from '../../../shared/components/error-dialog/error-dialog';
+import { Produto, ProdutoPage } from '../../models/produto';
+import { ProdutosService } from '../../services/produtos.service';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { ProdutosList } from '../../produtos-list/produtos-list';
 
 export interface ProdutosTable {
   codprod: number;
@@ -80,12 +80,18 @@ export class ProdutosComponent {
           console.error('ERRO NO SERVIDOR DE BANCO DE DADOS:', error);
           this.loadingError.set(true);
           this.openError('Não foi possível carregar os dados!');
-          this.dataSource.data = [];
           return of({ produtos: [], totalProdutos: 0, totalPages: 0 });
         }),
         tap((dados) => {
+
           console.log('Dados chegaram:', dados);
-          this.dataSource.data = [...(dados.produtos || [])];
+
+          this.dataSource.data = [...(dados.produtos ?? [])];
+
+          if (!dados.produtos?.length && this.pageIndex > 0 && dados.totalPages > 0) {
+            this.pageIndex = dados.totalPages - 1;
+            this.refresh();
+          }
         }),
       ),
     ),
@@ -107,19 +113,43 @@ export class ProdutosComponent {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 
-  onEdit(id: number) {
+  onEdit(produto: Produto) {
+    const id = typeof produto === 'object' ? produto.codprod : produto;
     this.router.navigate(['edit', id], { relativeTo: this.route });
   }
 
-  onDelete(id: number) {
+  onSoftDelete(produto: Produto) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: { name: `Produto Código ${id}` },
+      data: { name: `Deseja inativar o produto "${produto.codprod}"?` },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.produtosService.delete(id).subscribe({
+        this.produtosService.softDelete(produto.codprod).subscribe({
+          next: () => {
+            this.refresh();
+            this.snackBar.open('Produto inativado com sucesso!', 'X', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            });
+          },
+          error: () => this.openError('Erro ao tentar inativar o produto.'),
+        });
+      }
+    });
+  }
+
+  onDelete(produto: Produto) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: { name: `Produto Código ${produto.codprod}` },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.produtosService.delete(produto.codprod).subscribe({
           next: () => {
             this.refresh();
             this.snackBar.open('Produto deletado com sucesso!', 'X', {

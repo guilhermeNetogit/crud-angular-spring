@@ -1,0 +1,65 @@
+:host {
+  display: block;
+}
+
+mat-toolbar {
+  gap: 8px;
+}
+
+.form-container {
+  max-width: 880px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.form-card {
+  padding: 24px 24px 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 16px;
+  row-gap: 4px;
+}
+
+.col-full {
+  grid-column: span 6;
+}
+
+.col-codprod,
+.col-small {
+  grid-column: span 2;
+}
+
+.col-medium {
+  grid-column: span 3;
+}
+
+.form-actions {
+  padding: 8px 0 16px;
+  gap: 8px;
+}
+
+.btn-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.load-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+@media (max-width: 600px) {
+  .form-card {
+    padding: 16px 16px 4px;
+  }
+
+  .col-codprod,
+  .col-small,
+  .col-medium {
+    grid-column: span 6;
+  }
+}

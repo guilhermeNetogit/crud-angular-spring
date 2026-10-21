@@ -43,7 +43,7 @@ public class Produtos {
     @Column(name = "EANGTIN", nullable = false, length = 14)
     private String eangtin;
 
-    @Length(min = 4, max = 20)
+    @Length(min = 3, max = 20)
     @Column(name = "REFERENCIA", nullable = true, length = 20)
     private String referencia;
 

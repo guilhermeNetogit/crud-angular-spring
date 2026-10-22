@@ -3,97 +3,139 @@
 <mat-form-field>
 
   <mat-label>Filter</mat-label>
-  <input
-    matInput
-    (keyup)="applyFilter($event)"
-    placeholder="Ex. ium"
-    [value]="filterValue"
-    #input>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" [value]="filterValue" #input>
 </mat-form-field>
 
-<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<div class="mat-elevation-z8">
+  <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
 
-  <!-- ID Column -->
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
-  </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+    </ng-container>
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>
-      <mat-icon [fontIcon]="'No.' | category"></mat-icon>
-      Atomic Number
-    </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-  </ng-container>
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-icon [fontIcon]="'No.' | category"></mat-icon>
+        Atomic Number
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>
-      <mat-icon [fontIcon]="'Name' | category"></mat-icon>
-      Name
-    </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-  </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-icon [fontIcon]="'Name' | category"></mat-icon>
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>
-      <mat-icon [fontIcon]="'Weight' | category"></mat-icon>
-      Weight
-    </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-  </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-icon [fontIcon]="'Weight' | category"></mat-icon>
+        Weight
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>
-      <mat-icon [fontIcon]="'Symbol' | category"></mat-icon>
-      Symbol
-    </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-  </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-icon [fontIcon]="'Symbol' | category"></mat-icon>
+        Symbol
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    </ng-container>
 
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <!-- CABEÇALHO: Ações Globais -->
-    <mat-header-cell *matHeaderCellDef>
-      <button mat-icon-button [matMenuTriggerFor]="menuGlobal" class="btn-actions-menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-
-      <mat-menu #menuGlobal="matMenu">
-        <button mat-menu-item (click)="onAdd()">
-          <mat-icon color="primary">add</mat-icon>
-          <span>Inserir Novo</span>
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <!-- CABEÇALHO: Ações Globais -->
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button [matMenuTriggerFor]="menuGlobal" class="btn-actions-menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-      </mat-menu>
-    </mat-header-cell>
 
-    <!-- LINHAS: Ações Individuais -->
-    <mat-cell *matCellDef="let element">
-      <button mat-icon-button [matMenuTriggerFor]="menuIndividual" class="btn-actions-menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menuIndividual="matMenu">
-        <button mat-menu-item (click)="onEdit(element.id)">
-          <mat-icon color="accent">edit</mat-icon>
-          <span>Editar Item</span>
+        <mat-menu #menuGlobal="matMenu">
+          <button mat-menu-item (click)="onAdd()">
+            <mat-icon color="primary">add</mat-icon>
+            <span>Inserir Novo</span>
+          </button>
+        </mat-menu>
+      </th>
+
+      <!-- LINHAS: Ações Individuais -->
+      <td mat-cell *matCellDef="let element">
+
+        <button mat-icon-button [matMenuTriggerFor]="menuIndividual" class="btn-actions-menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <button mat-menu-item (click)="onDelete(element.id)">
-          <mat-icon color="warn">delete</mat-icon>
-          <span>Deletar Item</span>
+        <mat-menu #menuIndividual="matMenu">
+          <button mat-menu-item (click)="onEdit(element.id)">
+            <mat-icon color="accent">edit</mat-icon>
+            <span>Editar Item</span>
+          </button>
+          <button mat-menu-item (click)="onDelete(element.id)">
+            <mat-icon color="warn">delete</mat-icon>
+            <span>Deletar Item</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <!-- Expand button -->
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row" (click)="toggle(element); $event.stopPropagation()"
+          class="example-toggle-button btn-actions-menu"
+          [class.example-toggle-button-expanded]="isExpanded(element)">
+          <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
-      </mat-menu>
-    </mat-cell>
-  </ng-container>
+      </td>
+    </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <!-- Detalhe expandido: contatos -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div class="example-element-detail-wrapper"
+          [class.example-element-detail-wrapper-expanded]="isExpanded(element)">
+          <div class="example-element-detail">
 
-  <!-- Row shown when there is no matching data. -->
-  <mat-row class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="5">No data matching the filter "{{filterValue}}"</td>
-  </mat-row>
-</mat-table>
+            <div class="contatos">
+              <h4>Contatos</h4>
+
+              @for (contato of element.contatos; track contato.codcontato ?? $index) {
+              <div class="contato-item">
+                <span><strong>{{ contato.nomecontato }}</strong></span>
+                <span>{{ contato.telefone }}</span>
+                <span>{{ contato.email }}</span>
+                <span>{{ contato.siteurl }}</span>
+              </div>
+              } @empty {
+              <span>Nenhum contato cadastrado.</span>
+              }
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+      [class.example-expanded-row]="isExpanded(element)" (click)="toggle(element)">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+    <!-- Sem dados -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="columnsToDisplayWithExpand.length">
+        No data matching the filter "{{ filterValue }}"
+      </td>
+    </tr>
+  </table>
+</div>

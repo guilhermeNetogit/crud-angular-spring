@@ -6,21 +6,6 @@ mat-toolbar {
   font-size: 20px;
 }
 
-/* Garante que a div de elevação tenha largura e fundo */
-.mat-elevation-z8 {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-}
-
-mat-table {
-  overflow: auto;
-  max-height: 450px;
-  width: 100%;
-  background: transparent;
-}
-
 ::ng-deep .mat-mdc-form-field label {
   font-size: 14px !important;
 }
@@ -30,22 +15,70 @@ mat-table {
   width: 100%;
 }
 
-.mat-column-actions {
-  justify-content: flex-end !important;
+/* ===== Tabela ===== */
+.table-container {
+  width: 100%;
   display: flex;
+  flex-direction: column;
+  background-color: white;
+  overflow: auto;
+  max-height: 450px;
 }
 
+table[mat-table] {
+  width: 100%;
+  table-layout: fixed; /* só expand/actions têm largura fixa; o resto divide igual */
+  background: transparent;
+}
+
+/* Coluna do toggle */
+th.mat-mdc-header-cell.mat-column-expand,
+td.mat-mdc-cell.mat-column-expand {
+  width: 48px;
+  padding: 0;
+  text-align: center;
+}
+
+/* Coluna de ações: mesmo padding no header e nas linhas */
+th.mat-mdc-header-cell.mat-column-actions,
+td.mat-mdc-cell.mat-column-actions {
+  width: 56px;
+  padding: 0 8px 0 0;
+  text-align: right;
+}
+
+/* Alturas */
+tr.mat-mdc-header-row {
+  height: 48px;
+}
+
+tr.example-element-row {
+  height: 44px;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+/* Ícone + texto nos headers (exceto o kebab da coluna de ações) */
+th.mat-mdc-header-cell:not(.mat-column-actions) mat-icon {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.mat-sort-header-content {
+  white-space: nowrap;
+}
+
+/* ===== Botões de ícone (kebab e toggle) ===== */
 .btn-actions-menu {
   width: 32px !important;
   height: 32px !important;
   min-width: 32px !important;
-
-  /* Alinhamento flex */
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-
   cursor: pointer !important;
   border-radius: 50% !important;
   border: none !important;
@@ -53,44 +86,65 @@ mat-table {
   padding: 0 !important;
 }
 
-/* Efeito sutil ao passar o mouse em qualquer ícone da coluna */
 .btn-actions-menu:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Adiciona espaço entre o ícone e o texto em todos os headers da tabela */
-mat-header-cell mat-icon {
-  margin-right: 8px; /* Espaço entre ícone e descrição */
-  flex-shrink: 0;
-}
-
-mat-cell.mat-column-actions {
-  padding-right: 4px !important;
-}
-
-/* Ajuste específico para alinhar o conteúdo do header */
-.mat-mdc-header-cell {
-  padding: 0 4px !important;
-  box-sizing: border-box;
-}
-
-.mat-sort-header-content {
-  white-space: nowrap; /* Mantém "Atomic Number" em uma linha se houver espaço */
-}
-
-mat-mdc-header-cell.mat-column-actions {
-  padding-right: 22px !important;
-}
-
-/* Deixa o ícone de dentro menor para não carregar o visual */
 .btn-actions-menu mat-icon {
   font-size: 20px !important;
   width: 20px !important;
   height: 20px !important;
+  margin: auto;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
 
-  /* Garante que o ícone não tenha margens próprias */
-    margin: auto;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+.example-toggle-button {
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.example-toggle-button-expanded {
+  transform: rotate(180deg);
+}
+
+/* ===== Linha de detalhe ===== */
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-detail-row td.mat-mdc-cell {
+  padding: 0;
+  border-bottom-width: 0;
+}
+
+.example-element-detail-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.example-element-detail-wrapper-expanded {
+  grid-template-rows: 1fr;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+/* ===== Contatos ===== */
+.contatos {
+  width: 100%;
+  padding: 8px 16px 8px 64px; /* 64px = toggle (48) + padding da célula (16): alinha com a coluna Name */
+}
+
+.contatos h4 {
+  margin: 0 0 8px;
+}
+
+.contato-item {
+  display: flex;
+  gap: 16px;
+  padding: 4px 0;
 }

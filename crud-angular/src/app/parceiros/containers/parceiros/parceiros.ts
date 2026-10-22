@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { ErrorDialog } from '../../../shared/components/error-dialog/error-dialog';
 import { ParceirosList } from '../../components/parceiros-list/parceiros-list';
+import { Contato } from '../../models/contato';
 import { Parceiro } from '../../models/parceiro';
 import { ParceiroPage } from '../../models/parceiro-page';
 import { ParceirosService } from '../../services/parceiros';
@@ -24,6 +25,7 @@ export interface PeriodicElement {
   name: string;
   weight: number;
   symbol: string;
+  contatos?: Contato[];
 }
 
 @Component({

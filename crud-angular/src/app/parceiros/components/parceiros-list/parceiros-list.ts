@@ -61,6 +61,18 @@ export class ParceirosList {
   ];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
+  columnsToDisplayWithExpand = ['expand', ...this.columnsToDisplay];
+
+  expandedElement: any | null = null;
+
+  isExpanded(element: PeriodicElement) {
+    return this.expandedElement === element;
+  }
+
+  toggle(element: PeriodicElement) {
+    this.expandedElement = this.isExpanded(element) ? null : element;
+  }
+
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter<number>();
   @Output() delete = new EventEmitter<number>();
